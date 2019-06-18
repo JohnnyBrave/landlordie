@@ -1,0 +1,175 @@
+/*
+	Theme Name: Sentinel Theme
+	----------------------------------------------------------
+	Theme URI: http://
+	Author: Kevin Wachira
+	Author URI: http://kevinnmwangi@gmail.com
+	Description: Sentinel Theme
+	Version: 0.1
+
+	----------------------------------------------------------*/
+
+/* Theme's main structure
+	----------------------------------------------------------
+	EX-0. SEMANTIC-UI OVERRIDES
+	EX-1. FIPS MENU STYLES
+	EX-2. SENTINEL FOOTER PADDING STYLES
+	EX-3. PRE-FOOTER SECTION
+	EX-4. FOOTER SECTION
+
+	----------------------------------------------------------*/
+
+/*	----------------------------------------------------------
+ 	EX-0. SEMANTIC-UI OVERRIDES
+	----------------------------------------------------------*/
+
+.ui.vertical.menu .item > i.icon {
+    width: 1.18em;
+    float: left;
+    margin: 0 .5em 0 0;
+}
+
+.ui.vertical.menu .item > .menu {
+    margin-left: 0.6em;
+}
+
+.pusher {
+    padding:0 20px;
+    width:100%;
+
+}
+body.pushable > .pusher {
+    background: #EDDFF6;
+}
+body {
+    margin: 0px;
+    padding: 0px;
+    overflow-x: hidden;
+    min-width: 320px;
+    background: #F6EFFB;
+    font-family: 'Lato', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    line-height: 1.4285em;
+    color: rgba(0, 0, 0, 0.87);
+    font-smoothing: antialiased;
+}
+
+/*	----------------------------------------------------------
+ 	EX-1. FIPS MENU STYLES
+	----------------------------------------------------------*/
+
+#menuToggle {
+    background: #42AD4A;
+    color: #FFFFFF;
+    /*width: 150px;*/
+}
+
+/*	----------------------------------------------------------
+    EX-2. FIPS MARGIN/PADDING STYLES
+	----------------------------------------------------------*/
+
+.marginBottom {
+    margin-bottom: 64px;
+}
+
+
+.error{
+    font-weight: bold;
+    color: red;
+
+}
+.ui.attached.menu:not(.tabular){
+    width: auto;
+    table-layout: fixed;
+    border-collapse: collapse;
+}
+.ui[class*="left aligned"].segment{
+    background-color: #ab9997;
+}
+#number{
+    color: #fff4e4;
+    text-align: right;
+    font-weight: bold;
+    font-size: large;
+}
+#statistics{
+    text-align: right;
+    margin-left: 70px;
+}
+#tileLabel{
+    color: #fff4e4;
+    font-size: 16px;
+}
+#tileLabelContent{
+    color: #fff4e4;
+    font-size: 14px;
+}
+#tile_icon{
+    color: #fff4e4;
+    font-size: 50px;
+}
+#topSpace{
+    margin-top: 10px;
+}
+#open{
+    color: #FFFFFF;
+    font-size: medium;
+}
+#menuLabel{
+    color: #FFFFFF;
+    font-size: medium;
+}
+#menudropdownLabel{
+    color: #FFFFFF;
+    font-size: small;
+}
+#openIcon{
+    text-align: right;
+}
+#top-menu{
+    position: fixed;
+    width: 100%;
+    height:60px;
+    background-color: #F6EFFB;
+}
+#top-menu-item{
+    height: 60px;
+    width: 30%;
+    font-size: 16px;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: 10px;
+
+}
+#menuItems{
+    width:240px;
+    height:100%;
+    position:fixed;
+    background: #42AD4A;
+    -webkit-transition:all .3s ease-in-out;
+    -moz-transition:all .3s ease-in-out;
+    -o-transition:all .3s ease-in-out;
+    transition:all .3s ease-in-out;
+}
+#topDropDown{
+    margin-right: 40px;
+
+}
+#userIcon{
+    align-items: center;
+    margin-top: 60px;
+    background-color: #1077B9;
+
+}
+#userIconText{
+    text-align: center;
+    color: #F6EFFB;
+    font-size: 16px;
+}
+
+.marginTop40{
+    margin-top: 80px;
+}
+
+/*my css settings*/
+

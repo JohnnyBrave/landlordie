@@ -1,0 +1,45 @@
+.notify {
+    color: #FFF !important;
+    font-size: 14px;
+    line-height: 140%;
+    border-radius: 2px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    max-width: 700px;
+    width: 90%;
+    text-align: center;
+    z-index: 99999;
+    margin: 0 auto;
+}
+
+.notify div.error {
+    background-color: #FF5F5F;
+}
+.notify div {
+    padding: 10px;
+}
+
+.notify div span {
+    color: #FFF !important;
+    display: block;
+    margin-bottom: 0;
+    margin-left: 10px;
+}
+
+.notify div.info {
+    background-color: #1F8DD6;
+}
+
+.notify div .buttons {
+    text-align: right;
+}
+
+/**
+ * Address `[hidden]` styling not present in IE 8/9/10.
+ * Hide the `template` element in IE 8/9/11, Safari, and Firefox < 22.
+ */
+[hidden],
+template {
+    display: none; }
