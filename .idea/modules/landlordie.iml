@@ -22,6 +22,21 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" scope="TEST" name="sbt: xalan:xalan:2.7.2:jar" level="project" />
+    <orderEntry type="library" name="sbt: org.slf4j:slf4j-api:1.7.26:jar" level="project" />
+    <orderEntry type="library" name="sbt: org.jetbrains:annotations:13.0:jar" level="project" />
+    <orderEntry type="library" name="sbt: org.avaje:avaje-datasource-api:1.1:jar" level="project" />
+    <orderEntry type="library" name="sbt: org.avaje:avaje-datasource:2.1.1:jar" level="project" />
+    <orderEntry type="library" name="sbt: org.avaje:avaje-classpath-scanner-api:2.2:jar" level="project" />
+    <orderEntry type="library" name="sbt: org.avaje:avaje-classpath-scanner:2.2.2:jar" level="project" />
+    <orderEntry type="library" name="sbt: org.antlr:antlr4-runtime:4.6:jar" level="project" />
+    <orderEntry type="library" name="sbt: io.ebean:persistence-api:2.2.1:jar" level="project" />
+    <orderEntry type="library" name="sbt: io.ebean:ebean-dbmigration:10.1.8:jar" level="project" />
+    <orderEntry type="library" name="sbt: io.ebean:ebean-annotation:2.3:jar" level="project" />
+    <orderEntry type="library" name="sbt: io.ebean:ebean-agent:10.3.1:jar" level="project" />
+    <orderEntry type="library" name="sbt: io.ebean:ebean:10.3.1:jar" level="project" />
+    <orderEntry type="library" name="sbt: com.typesafe.play:play-jdbc-evolutions_2.12:2.6.0:jar" level="project" />
+    <orderEntry type="library" name="sbt: com.typesafe.play:play-ebean_2.12:4.0.2:jar" level="project" />
+    <orderEntry type="library" name="sbt: com.h2database:h2:1.4.193:jar" level="project" />
     <orderEntry type="library" name="sbt: stax:stax-api:1.0.1:jar" level="project" />
     <orderEntry type="library" name="sbt: org.webjars:webjars-play_2.12:2.6.0:jar" level="project" />
     <orderEntry type="library" name="sbt: org.webjars:webjars-locator-core:0.32:jar" level="project" />
@@ -45,7 +60,6 @@
     <orderEntry type="library" name="sbt: org.springframework:spring-core:4.3.9.RELEASE:jar" level="project" />
     <orderEntry type="library" name="sbt: org.springframework:spring-context:4.3.9.RELEASE:jar" level="project" />
     <orderEntry type="library" name="sbt: org.springframework:spring-beans:4.3.9.RELEASE:jar" level="project" />
-    <orderEntry type="library" name="sbt: org.slf4j:slf4j-api:1.7.25:jar" level="project" />
     <orderEntry type="library" name="sbt: org.slf4j:jul-to-slf4j:1.7.25:jar" level="project" />
     <orderEntry type="library" name="sbt: org.slf4j:jcl-over-slf4j:1.7.25:jar" level="project" />
     <orderEntry type="library" scope="TEST" name="sbt: org.seleniumhq.selenium:selenium-support:3.4.0:jar" level="project" />
@@ -159,5 +173,6 @@
     <orderEntry type="library" name="sbt: com.google.inject:guice:4.1.0:jar" level="project" />
     <orderEntry type="library" name="sbt: com.google.inject.extensions:guice-assistedinject:4.1.0:jar" level="project" />
     <orderEntry type="library" name="sbt: com.typesafe.play:play-guice_2.12:2.6.0:jar" level="project" />
+    <orderEntry type="library" name="sbt: com.typesafe.play:play-enhancer:1.1.0:jar" level="project" />
   </component>
 </module>

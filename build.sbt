@@ -1,8 +1,8 @@
 name := "landlordie"
  
-version := "1.0" 
-      
-lazy val `landlordie` = (project in file(".")).enablePlugins(PlayJava,SbtWeb)
+version := "1.0"
+
+lazy val `landlordie` = (project in file(".")).enablePlugins(PlayJava, PlayEbean, SbtWeb)
   .settings(
     // Disable NPM node modules
     JsEngineKeys.npmNodeModules in Assets := Nil,
