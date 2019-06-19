@@ -17,7 +17,7 @@ public class Permission extends Model implements be.objectify.deadbolt.java.mode
     private String name;
     @ManyToMany
     @JoinTable(name = "role_permission")
-    private List<RefUserRole> userRole;
+    private List<RefUserRoles> userRole;
 
     public Integer getId() {
         return id;

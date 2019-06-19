@@ -4,6 +4,9 @@
 
 # Home page
 GET     /landlordie                 controllers.LoginController.start
+#here the login credentials are submitted via post method
+
+POST        /login                  controllers.LoginController.login
 GET     /dashboard                  controllers.DashboardController.landing
 
 
