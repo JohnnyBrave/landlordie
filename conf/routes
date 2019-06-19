@@ -4,6 +4,7 @@
 
 # Home page
 GET     /landlordie                 controllers.LoginController.start
+GET     /dashboard                  controllers.DashboardController.landing
 #GET     /                           controllers.Application.index
 
 # Map static resources from the /public folder to the /assets URL path
