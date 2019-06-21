@@ -2,11 +2,18 @@ package controllers;
 
 import play.mvc.Result;
 
-import static play.mvc.Results.ok;
 
 public class DashboardController extends AppController {
-    public Result landing(){
-        return ok(views.html.dashboard.render());
-    }
+    public Result renderDashboard() {
+        System.out.println("Inside renderDashboard");
 
+        System.out.println("request().path() " + request().path());
+        System.out.println("request().uri() " + request().uri());
+        System.out.println("request().host() " + request().host());
+        System.out.println("request().remoteAddress() " + request().remoteAddress());
+
+        return ok(views.html.dashboard.render(isLoggedIn(), getUserJson()));
+
+
+    }
 }

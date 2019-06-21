@@ -75,7 +75,7 @@ public class Users extends Model implements Subject {
         List<? extends Role> roles = getRoles();
         for (Role role : roles) {
             UserRoles userRole = (UserRoles) role;
-//            results.add(userRole.getRole().getRole_code());
+            results.add(userRole.getRole().getRole_code());
         }
         return new ArrayList<String>(results);
     }

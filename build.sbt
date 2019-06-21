@@ -19,7 +19,8 @@ resolvers += "scalaz-bintray" at "https://dl.bintray.com/scalaz/releases"
       
 scalaVersion := "2.12.6"
 
-libraryDependencies ++= Seq(   jdbc,
+libraryDependencies ++= Seq(
+  jdbc,
   guice,
   javaJdbc,
   cacheApi,

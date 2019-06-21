@@ -1,10 +1,92 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>Title</title>
-    </head>
-    <body>
+@(isLoggedIn: Boolean, user: com.fasterxml.jackson.databind.node.ObjectNode)(appContent: Html)
+    @import play.libs.Json
 
-    </body>
-</html>
+@main {
+    @if(isLoggedIn) {
+        <script>
+                var identity = @{(Html(Json.stringify(user)))};
+                var isLoggedIn = "@isLoggedIn";
+
+        </script>
+        <main id="page">
+            <div id="menu">
+
+            </div>
+            <div id="content">
+                <div id="sideBar">
+                    <div className="ui hidden divider"></div>
+                </div>
+                <div id="pusher">
+                @appContent
+                </div>
+
+            </div>
+            <footer class="ui inverted vertical fixed footer segment" style="position: fixed;
+                bottom: 0;
+                right: 0;
+                left: 0;
+                background-color: transparent;">
+                <div class="row" >
+
+                    <a href="#page"><i id="page1" class="toggle up icon" style="float: right;
+                        margin-right: 20px;
+                        font-size: 50px;
+                        color: #ab4928;"></i></a>
+                </div>
+            </footer>
+            <script>
+                    $(document).ready(function () {
+
+                        //Check to see if the window is top if not then display button
+                        $(window).scroll(function () {
+                            if ($(this).scrollTop() > 100) {
+                                $('#page1').fadeIn();
+                            } else {
+                                $('#page1').fadeOut();
+                            }
+                        });
+
+                        $("a").on('click', function (event) {
+
+                            // Make sure this.hash has a value before overriding default behavior
+                            if (this.hash !== "") {
+                                // Prevent default anchor click behavior
+                                event.preventDefault();
+
+                                // Store hash
+                                var hash = this.hash;
+
+                                // Using jQuery's animate() method to add smooth page scroll
+                                // The optional number (800) specifies the number of milliseconds it takes to scroll to the specified area
+                                $('html, body').animate({
+                                    scrollTop: $(hash).offset().top
+                                }, 800, function () {
+
+                                    // Add hash (#) to URL when done scrolling (default click behavior)
+                                    window.location.hash = hash;
+                                });
+                            } // End if
+                        });
+
+                    });
+            </script>
+
+        </main>
+
+    } else {
+        <main id="page">
+            <div class="ui center aligned container">
+                <p>Not Authorised</p>
+            </div>
+        </main>
+
+    }
+}
+
+<link rel="stylesheet" media="screen" href="@routes.Assets.at("semantic/components/calendar.css")">
+<script type='text/javascript' src='@routes.Assets.at("javascripts/util/inputComponents.js")'></script>
+<script type='text/javascript' src='@routes.Assets.at("javascripts/util/sharedComponents.js")'></script>
+<script type='text/javascript' src='@routes.Assets.at("semantic/components/calendar.js")'></script>
+<script type='text/javascript' src='@routes.Assets.at("javascripts/components/topmenu.js")'></script>
+<script type='text/javascript' src='@routes.Assets.at("javascripts/components/sidebar.js")'></script>
+

@@ -76,7 +76,7 @@ public class LoginController extends LandlordieController {
 
                 System.out.println("Redirecting to the Dashboard Controller for the user of the role " + session(Util.ROLE));
                 System.out.println("Redirecting to the Dashboard Controller for the user of the department " + session(Util.DEPARTMENT));
-//                return redirect(routes.DashboardController.renderDashboard());
+                return redirect(routes.DashboardController.renderDashboard());
 
             } else {
                 System.out.println("Inside unauthorized");
@@ -91,7 +91,7 @@ public class LoginController extends LandlordieController {
             responseNode.put("message", message);
             return badRequest(responseNode);
         }
-        return ok("it works");
+
 
     }
 

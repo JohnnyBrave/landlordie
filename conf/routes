@@ -3,14 +3,18 @@
 # ~~~~
 
 # Home page
-GET     /landlordie                 controllers.LoginController.start
+GET         /landlordie              controllers.LoginController.start
 #here the login credentials are submitted via post method
 
-POST        /login                  controllers.LoginController.login
-GET     /dashboard                  controllers.DashboardController.landing
+POST        /login                   controllers.LoginController.login
+GET         /dashboard               controllers.DashboardController.renderDashboard
 
 
-GET        /unauthorised            controllers.LoginController.redirectUnauthorized
+GET         /unauthorised            controllers.LoginController.redirectUnauthorized
+
+#lists
+GET         /list/currentuser        controllers.ListManagerController.currentUser()
+GET         /list/departments        controllers.ListManagerController.listDepartments()
 
 # Map static resources from the /public folder to the /assets URL path
-GET     /assets/*file               controllers.Assets.at(path="/public", file)
+GET         /assets/*file            controllers.Assets.at(path="/public", file)
