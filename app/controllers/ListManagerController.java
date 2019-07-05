@@ -3,6 +3,7 @@ package controllers;
 
 import models.Departments;
 import models.RefUserRoles;
+import models.Tenants;
 import models.Users;
 import play.libs.Json;
 import play.mvc.Result;
@@ -111,28 +112,6 @@ public class ListManagerController extends AppController {
 //    }
 
 
-    /**
-     * returns a listing of authorized security officers as an options list depending on the unit they belong to
-     *
-     * @return
-     */
-//    public Result listGuardsByFacility(){
-//        JsonNode facilityIdNode = request().body().asJson();
-//        if(facilityIdNode.isNull()){
-//            return badRequest(errorMessage("Unable to get a list of guards"));
-//        }
-//        String facilityId = facilityIdNode.asText();
-//        System.out.println("facilityId "+facilityId);
-//        List<PersonRole> personRoles = PersonRole.find.where().eq("facility.id", facilityId).eq("role.cd", "SECOF").findList();
-//        Set<Person> persons = new HashSet<Person>();
-//        for(PersonRole personRole: personRoles){
-//            persons.add(personRole.getPerson());
-//        }
-//        return ok(Json.toJson(refactor(persons)));
-//
-//    }
-
-
     /*
      * Returns the appropriate listing of departments allowed for the user to view
      * @return
@@ -174,29 +153,13 @@ public class ListManagerController extends AppController {
         return ok(Json.toJson(refactor(userRoleList)));
     }
 
-    /*
-     * Returns a list of Department Roles as an option list depending on the role of the
-     * currently logged in user
-     * @return
-     * */
-//    public Result listOrganizationRoles(){
-//        List<RefOrganizationRole> organizationRoles = new ArrayList<>();
-//        List<String> allowedRoles = new ArrayList<>();
-//        if(isSysAdmin() && !isProxy()) {
-//            allowedRoles.add("MGR");
-//            allowedRoles.add("SEC");
-//            allowedRoles.add("TEN");
-//            allowedRoles.add("SYS");
-//        }else if (isBuildingDirector()) {
-//            allowedRoles.add("MGR");
-//            allowedRoles.add("SEC");
-//            allowedRoles.add("TEN");
-//        }else if(isBuildingManager()) {
-//            allowedRoles.add("TEN");
-//        }
-//        organizationRoles = RefOrganizationRole.find.where().in("cd", allowedRoles).findList();
-//        return ok(Json.toJson(refactor(organizationRoles)));
-//    }
+    public Result listTenants() {
+        List<Tenants> tenants = Tenants.find.all();
+        System.out.println("Inside list Tenants");
+        System.out.println("The tenants are: " + tenants.size() + " in number");
+        return ok(Json.toJson(tenants));
+    }
+
 
     private <T> List<Option> refactor(Collection<T> collection) {
         List<Option> result = new ArrayList<>();
@@ -213,6 +176,9 @@ public class ListManagerController extends AppController {
             } else if (item instanceof Users) {
                 Users val = (Users) item;
                 result.add(new Option(val.getEmail(), val.getIdentifier()));
+            } else if (item instanceof Tenants) {
+                Tenants val = (Tenants) item;
+                result.add(new Option(val.getVba_name(), val.getVbacode()));
             }
         }
         return result;

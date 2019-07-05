@@ -7,8 +7,11 @@ public class Util {
     //    private static final String USERNAME = "fips";
 //    private static final String API_KEY = "APIKEY";
     public static String AUTH_TOKEN = "authToken";
-    public static String PROGRAM = "PROGRAM";
     public static String DEPARTMENT = "DEPARTMENT";
+
+    public static String PROPERTYNAME = "HOUSEID";
+    public static String HOUSEID = "HOUSEID";
+    public static String FLOOR = "FLOOR";
     public static String ROLE = "ROLE";
     public static String PROXY_ROLE = "PROXY_ROLE";
     public static String PROXY_DEPARTMENT = "PROXY_DEPARTMENT";

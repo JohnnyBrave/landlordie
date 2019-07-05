@@ -145,7 +145,7 @@ body {
     width:240px;
     height:100%;
     position:fixed;
-    background: #42AD4A;
+    background: #426B93;
     -webkit-transition:all .3s ease-in-out;
     -moz-transition:all .3s ease-in-out;
     -o-transition:all .3s ease-in-out;
@@ -158,7 +158,7 @@ body {
 #userIcon{
     align-items: center;
     margin-top: 60px;
-    background-color: #1077B9;
+    background-color: rgba(192, 192, 192, 0.76);
 
 }
 #userIconText{
@@ -172,4 +172,8 @@ body {
 }
 
 /*my css settings*/
-
+#logo_desc {
+    font-family: Arial;
+    font-weight: bold;
+    color: #AB4928;
+}

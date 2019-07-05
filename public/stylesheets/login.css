@@ -23,10 +23,7 @@
     padding: 0 30px;
     font-size: 30px;
     font-weight: bold;
-    color: #FFDF00;
-
-
-
+    color: #AB4928;
  }
 
 .ui.tiny.header {
@@ -278,7 +275,7 @@ input:focus ~ .highlight {
 }
 
 .lostPassword:hover, .lostPassword:active{
-    color: #fff203;
+    color: #AB4928;
 }
 /* The only rule that matters */
 /*#video-background {*/
