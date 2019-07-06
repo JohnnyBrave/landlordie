@@ -382,10 +382,62 @@ var SearchActivity = React.createClass({
     render: function () {
         <VbaTable searchResults={this.state.searchResults}/>
         return (
+
             <div className="ui page grid">
-                <div className="ui segments">
+
+                <div className="ui segment">
+
+                    <div className="ui  stackable cards">
+                        <div className="card">
+                            <div className="content">
+                                <h2 className="header">Ram Usage by accounts</h2>
+                                <div className="ui divider"></div>
+                                <table>
+                                    <tr>
+                                        <td>
+                                            <canvas id="ramUsageChart"></canvas>
+                                        </td>
+                                        <td className="chartData"></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <div className="card">
+                            <div className="content">
+                                <h2 className="header">Disc Usage</h2>
+                                <div className="ui divider"></div>
+                                <table>
+
+                                    <tr>
+                                        <td>
+                                            <canvas id="discUsageChart"></canvas>
+                                        </td>
+                                        <td className="chartData"></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <div className="card">
+                            <div className="content">
+                                <h2 className="header">Bandwidth Usage by accounts</h2>
+                                <div className="ui divider"></div>
+                                <canvas id="bandwidthUsageChart"></canvas>
+                            </div>
+                        </div>
+                        <div className="card">
+                            <div className="content">
+                                <h2 className="header">New Accounts Report</h2>
+                                <div className="ui divider"></div>
+                                <canvas id="newAccountsChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+                <div className="ui segment">
                     <div className="row">
-                        <div className="three wide column">
+                        <div className="column">
                             <div className="ui grid attached top header">
                                 <div className="two column row">
                                     <div className="left floated left aligned column"><h3>Search for VBAs & Farmers</h3>

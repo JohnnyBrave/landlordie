@@ -97,17 +97,15 @@ var ManageTenants = React.createClass({
             )
         }
         return (
+
             <div className="ui container">
-                <div className="ui hidden divider"></div>
-                <div className="ui hidden divider"></div>
-                <div className="ui hidden divider"></div>
                 {vbaForm}
                 <div className="row">
                     <div className="ui hidden divider"></div>
                     <div className="ui grid attached top header">
                         <div className="two column row">
                             <div className="left floated left aligned column">
-                                <h3>Manage VBAs</h3>
+                                <h3>Manage Tenants</h3>
                             </div>
                             <div className="right floated right aligned column">
                                 <button className="ui primary button" type="button" onClick={this._handleEditClick}>
@@ -128,6 +126,7 @@ var ManageTenants = React.createClass({
                     _handleDeleteClick={this._handleDeleteClick}/>
 
             </div>
+
         )
     }
 });

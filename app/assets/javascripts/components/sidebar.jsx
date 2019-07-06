@@ -78,7 +78,12 @@ var Sidebar = React.createClass({
                     trigger: '#open'
                 }
             });
-
+        $('.ui.sidebar')
+            .sidebar({
+                context: $('#pusher'),
+                dimPage: false
+            })
+            .sidebar('setting', 'transition', 'push');
 
         $('#content').css({minHeight: $(window).innerHeight() - 0});
         $(window).resize(function () {

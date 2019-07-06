@@ -35,7 +35,8 @@
 
 .pusher {
     padding:0 20px;
-    width:100%;
+    width: 80%;
+    background-color: rgba(204, 204, 204, 0.25);
 
 }
 body.pushable > .pusher {
@@ -58,11 +59,7 @@ body {
  	EX-1. FIPS MENU STYLES
 	----------------------------------------------------------*/
 
-#menuToggle {
-    background: #42AD4A;
-    color: #FFFFFF;
-    /*width: 150px;*/
-}
+
 
 /*	----------------------------------------------------------
     EX-2. FIPS MARGIN/PADDING STYLES
@@ -142,9 +139,9 @@ body {
 
 }
 #menuItems{
+    position: fixed;
     width:240px;
     height:100%;
-    position:fixed;
     background: #426B93;
     -webkit-transition:all .3s ease-in-out;
     -moz-transition:all .3s ease-in-out;
