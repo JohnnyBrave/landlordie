@@ -21,8 +21,8 @@ public class ListManagerController extends AppController {
     public Result currentUser() {
 
         Users currentUser = Authority.getPerson(ctx());
-        System.out.println("The current user is: " + currentUser.getEmail());
-        return ok(Json.toJson(currentUser.getEmail()));
+        System.out.println("The current user is: " + Json.toJson(currentUser));
+        return ok(Json.toJson(currentUser));
 
     }
 
@@ -178,7 +178,7 @@ public class ListManagerController extends AppController {
                 result.add(new Option(val.getEmail(), val.getIdentifier()));
             } else if (item instanceof Tenants) {
                 Tenants val = (Tenants) item;
-                result.add(new Option(val.getVba_name(), val.getVbacode()));
+                result.add(new Option(val.getId_number(), val.getPhone_no()));
             }
         }
         return result;

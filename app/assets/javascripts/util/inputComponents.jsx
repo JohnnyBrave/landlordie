@@ -1,6 +1,8 @@
 /**
  * Date Formating functions
  */
+
+
 //date formatter helper
 var allAvailableOptions = {
     weekday: "long", year: "numeric", month: "short",
@@ -35,7 +37,7 @@ function formatDateMonthDay(dateValue, options = monthYearOptions) {
  */
 
 
-var SingleSelectWithOptions = React.createClass({
+var SingleSelectWithOptions = createReactClass({
 
     render: function () {
         var options = [];
@@ -61,7 +63,7 @@ var SingleSelectWithOptions = React.createClass({
     }
 });
 
-var SingleSelect = React.createClass({
+var SingleSelect = createReactClass({
 
     getInitialState: function () {
         return {
@@ -98,21 +100,19 @@ var SingleSelect = React.createClass({
         return (
             <Select
                 name={this.props.name}
-                ref={this.props.name}
-                required={true}
                 clearable={false}
-                noResultsText={this.props.noResultsText}
                 placeholder={this.props.placeholder}
-                value={this.props.selectedValue}
-                options={this.state.options}
+                value={this.selectedValue}
                 onChange={this.props._valueChanged}
+                options={this.state.options}
             />
+
 
         )
     }
 });
 
-var AsyncSingleSelect = React.createClass({
+var AsyncSingleSelect = createReactClass({
 
     getInitialState: function () {
         return {
@@ -176,7 +176,7 @@ var AsyncSingleSelect = React.createClass({
 });
 
 
-var MultiSelectWithOptions = React.createClass({
+var MultiSelectWithOptions = createReactClass({
     render: function () {
         ////console.log('@@@ inside the multiselect with options');
         var options = [];
@@ -207,7 +207,7 @@ var MultiSelectWithOptions = React.createClass({
 
 
 /**
- *Multielect component
+ *Multiselect component
  * Used when you expect user to make/ pick multiple choices from a list
  *
  * Pass parameters :
@@ -217,7 +217,7 @@ var MultiSelectWithOptions = React.createClass({
  * _valueChanged - function to be called when selected option changes
  */
 
-var MultiSelect = React.createClass({
+var MultiSelect = createReactClass({
 
     getInitialState: function () {
         return {
@@ -268,7 +268,7 @@ var MultiSelect = React.createClass({
 });
 
 /* input for validation*/
-var Input = React.createClass({
+var Input = createReactClass({
 
 
     //onchange event
@@ -468,7 +468,7 @@ var Input = React.createClass({
  *
  */
 
-var Loader = React.createClass({
+var Loader = createReactClass({
     render: function () {
 
         return (

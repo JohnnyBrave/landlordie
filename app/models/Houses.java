@@ -9,55 +9,37 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "networks")
+@Table(name = "houses")
 public class Houses extends Model {
-    public static Finder<String, Houses> find = new Finder<String, Houses>(Houses.class, "fips_db");
+    public static Finder<String, Houses> find = new Finder<String, Houses>(Houses.class, "landlordie");
     @Id
-    @Column(name = "network_id")
-    private String house_id;
-    @Column(name = "network_name")
-    private String network_name;
-    @Column(name = "network_department")
-    private String network_department;
-
+    @Column(name = "house_no")
+    private String house_no;
+    @Column(name = "name")
+    private String name;
 
     public Houses() {
-        this.house_id = "";
-        this.network_name = "";
-        this.network_department = "";
+        this.house_no = "";
+        this.name = "";
     }
 
-    public String getNetwork_id() {
-        return house_id;
+    public String getHouse_no() {
+        return house_no;
     }
 
-    public void setNetwork_id(String network_id) {
-        this.house_id = house_id;
+    public void setHouse_no(String house_no) {
+        this.house_no = house_no;
     }
 
-    public String getNetwork_name() {
-        return network_name;
+    public String getName() {
+        return name;
     }
 
-    public void setNetwork_name(String network_name) {
-        this.network_name = network_name;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getDepartment_id() {
-        return network_department;
-    }
 
-    public void setDepartment_id(String network_department) {
-        this.network_department = network_department;
-    }
-
-    public String getNetwork_department() {
-        return network_department;
-    }
-
-    public void setNetwork_department(String network_department) {
-        this.network_department = network_department;
-    }
 
 
 }

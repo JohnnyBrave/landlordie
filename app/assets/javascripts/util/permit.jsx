@@ -8,7 +8,7 @@
  */
 
 
-var Permit = React.createClass({
+var Permit = createReactClass({
 
     _hasRole: function (role) {
         if (identity != null && identity.roles != null && identity.roles.length > 0) {
@@ -16,7 +16,7 @@ var Permit = React.createClass({
                 var roleArray = role.split(",");
                 var result = $.inArray(identity.roles[i], roleArray);
                 if (result >= 0) {
-                    if (identity.roles[i] == 'SUP' && identity.isProxy == 'true') {
+                    if (identity.roles[i] == 'REG' && identity.isProxy == 'true') {
                         continue;//if the sysdmin is proxied to another role, ignore the SYSADMIN and use the other role
                     }
                     return true;

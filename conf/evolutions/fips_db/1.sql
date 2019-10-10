@@ -16,11 +16,10 @@ create table departments (
   constraint pk_departments primary key (department_id)
 );
 
-create table networks (
-  network_id                    varchar(255) not null,
-  network_name                  varchar(255),
-  network_department            varchar(255),
-  constraint pk_networks primary key (network_id)
+create table houses (
+  house_no                      varchar(255) not null,
+  name                          varchar(255),
+  constraint pk_houses primary key (house_no)
 );
 
 create table permission (
@@ -41,16 +40,16 @@ create table user_ref_role (
   constraint pk_user_ref_role primary key (role_code)
 );
 
-create table vbas (
-  vbacode                       varchar(255) not null,
-  vba_name                      varchar(255),
+create table tenants (
+  tenant_id                     varchar(255) not null,
+  id_type                       varchar(255),
+  id_number                     varchar(255),
+  first_name                    varchar(255),
+  middle_name                   varchar(255),
+  last_name                     varchar(255),
   phone_no                      varchar(255),
-  gender                        varchar(255),
-  age                           varchar(255),
-  latitude                      varchar(255),
-  longitude                     varchar(255),
-  vba_network_id                varchar(255),
-  constraint pk_vbas primary key (vbacode)
+  tenant_house_no               varchar(255),
+  constraint pk_tenants primary key (tenant_id)
 );
 
 create table user_role (
@@ -64,6 +63,7 @@ create table user_role (
 create table users (
   email                         varchar(255) not null,
   password                      varchar(255),
+  first_name                    varchar(255),
   constraint pk_users primary key (email)
 );
 
@@ -79,8 +79,8 @@ create index ix_role_permission_permission on role_permission (permission_id);
 alter table role_permission add constraint fk_role_permission_user_ref_role foreign key (user_ref_role_role_code) references user_ref_role (role_code) on delete restrict on update restrict;
 create index ix_role_permission_user_ref_role on role_permission (user_ref_role_role_code);
 
-alter table vbas add constraint fk_vbas_vba_network_id foreign key (vba_network_id) references networks (network_id) on delete restrict on update restrict;
-create index ix_vbas_vba_network_id on vbas (vba_network_id);
+alter table tenants add constraint fk_tenants_tenant_house_no foreign key (tenant_house_no) references houses (house_no) on delete restrict on update restrict;
+create index ix_tenants_tenant_house_no on tenants (tenant_house_no);
 
 alter table user_role add constraint fk_user_role_email foreign key (email) references users (email) on delete restrict on update restrict;
 create index ix_user_role_email on user_role (email);
@@ -106,8 +106,8 @@ drop index ix_role_permission_permission on role_permission;
 alter table role_permission drop foreign key fk_role_permission_user_ref_role;
 drop index ix_role_permission_user_ref_role on role_permission;
 
-alter table vbas drop foreign key fk_vbas_vba_network_id;
-drop index ix_vbas_vba_network_id on vbas;
+alter table tenants drop foreign key fk_tenants_tenant_house_no;
+drop index ix_tenants_tenant_house_no on tenants;
 
 alter table user_role drop foreign key fk_user_role_email;
 drop index ix_user_role_email on user_role;
@@ -122,7 +122,7 @@ drop table if exists department_member;
 
 drop table if exists departments;
 
-drop table if exists networks;
+drop table if exists houses;
 
 drop table if exists permission;
 
@@ -130,7 +130,7 @@ drop table if exists role_permission;
 
 drop table if exists user_ref_role;
 
-drop table if exists vbas;
+drop table if exists tenants;
 
 drop table if exists user_role;
 

@@ -1,15 +1,10 @@
-var usernameURL = '/list/currentuser';
+var getUserURL = '/list/currentuser';
 
-var Username = React.createClass(
+var Username = createReactClass(
     {
-
         getInitialState: function () {
             return {
-                usernameOptions: [],
-
-                usernameParameters: {
-                    username: 'Landlordie',
-                },
+                userData: [],
                 messageResponses: {
                     message: '',
                     type: '',
@@ -17,59 +12,63 @@ var Username = React.createClass(
                 }
             }
         },
+        componentDidMount: function () {
+            this._loadUser();
+        },
+        /*
+*definition of handler for collecting username
+*/
+
+        _loadUser: function () {
+            $.ajax({
+                url: getUserURL,
+                method: 'GET',
+                contentType: "json",
+                dataType: 'json',
+                cache: false,
+                success: function (data) {
+                    this.setState({userData: data});
+                    console.log("The user's email is: " + data.toString())
+                }.bind(this),
+                error: function (xhr, status, err) {
+                    console.error(getUserURL, status, err.toString());
+                }.bind(this)
+            });
+        },
 
         render: function () {
             return (
                 <div>
-                    <label id="logo_desc">
-                        Landlordie
+                    <h2 className="ui center aligned icon header">
+                        <img id="apartmentslogo" className="ui image" src="/assets/images/apartments.png"/>
+                        <div id="logo_desc" className="content">
+                            Oasis
+                        </div>
+                    </h2>
+                    <label>
+                        <h2>Hi,&nbsp;{this.state.userData.first_name}<i className="smile icon"></i></h2>
                     </label>
                 </div>
             );
         },
 
-        /*
-*definition of handler for collecting username
-*/
-
-        _loadUserOptions: function (username) {
-            var params = JSON.stringify(username)
-            $.ajax({
-                url: usernameURL,
-                method: 'GET',
-                contentType: "application/json; charset=utf-8",
-                dataType: 'json',
-                data: params,
-                cache: false,
-                success: function (data) {
-                    console.log("The department you selected is: " + params)
-                    this.setState({usernameOptions: data});
-                }.bind(this),
-                error: function (xhr, status, err) {
-                    console.error(usernameURL, status, err.toString());
-                }.bind(this)
-            });
-        },
-
-        /*a listener for username changed*/
-
-        _usernameChanged: function (passedValue) {
-            var tmp = this.state.usernameParameters;
-            tmp.username = passedValue.value;
-            this.setState({usernameParameters: tmp});
-            this._loadUserOptions(passedValue.value);
-        },
-
-
     }
 );
 
 
-var Sidebar = React.createClass({
+var Menu = createReactClass({
 
     componentDidMount: function () {
         $('.ui.dropdown')
             .dropdown();
+        $('.ui.sidebar')
+            .sidebar({
+                context: $('#content'),
+                dimPage: false
+            })
+            .sidebar('setting', 'transition', 'push')
+            .sidebar('attach events', '#menuToggle');
+
 
         // $(window).width()
         $('.ui.accordion')
@@ -78,28 +77,25 @@ var Sidebar = React.createClass({
                     trigger: '#open'
                 }
             });
-        $('.ui.sidebar')
-            .sidebar({
-                context: $('#pusher'),
-                dimPage: false
-            })
-            .sidebar('setting', 'transition', 'push');
+
 
         $('#content').css({minHeight: $(window).innerHeight() - 0});
         $(window).resize(function () {
             $('#content').css({minHeight: $(window).innerHeight() - 0});
         });
     },
+
     render: function () {
         return (
-            <div id="menuItems" className="ui left vertical inverted visible sidebar menu">
-
+            <div id="menuItems" className="ui inverted left vertical sidebar menu ">
                 <div className="ui segment" id="userIcon">
-                    <img className="ui centered tiny circular image" src="/assets/images/apartments.png"/>
+
+                    {/*<img className="ui centered tiny circular image" src="/assets/images/apartments.png"/>*/}
+
                     <h3 id="userIconText"><Username/></h3>
                 </div>
                 <a id="menuLabel" className="item" href={"/dashboard"}>
-                    <i className="bar chart icon"></i> Dashboard
+                    <i className="dashboard icon"></i> Dashboard
                 </a>
                 <div className="item">
                     <div className="ui accordion">
@@ -201,4 +197,5 @@ var Sidebar = React.createClass({
     }
 });
 
-ReactDOM.render(<Sidebar/>, document.getElementById('sideBar'));
+
+ReactDOM.render(<Menu/>, document.getElementById('sideBar'));

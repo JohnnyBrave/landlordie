@@ -31,6 +31,16 @@ public class Users extends Model implements Subject {
     @Column(name = "password")
     private String password;
 
+    @Column(name = "first_name")
+    private String first_name;
+
+    public String getFirst_name() {
+        return first_name;
+    }
+
+    public void setFirst_name(String first_name) {
+        this.first_name = first_name;
+    }
     public String getEmail() {
         return email;
     }

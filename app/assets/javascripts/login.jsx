@@ -9,9 +9,9 @@ function Login (){
                 <div className="ui segment">
                     <h2 className="ui center aligned icon header">
                         <img id="apartmentslogo" className="ui image" src="/assets/images/apartments.png"/>
-                            <div id="logo_desc" className="content">
-                                Landlordie
-                            </div>
+                        <div id="logo_desc" className="content">
+                            Oasis
+                        </div>
                         <div id="logo_desc2" className="content">
                             Managing tenants and bills for landlords made easy
                         </div>

@@ -35,7 +35,7 @@
 
 .pusher {
     padding:0 20px;
-    width: 80%;
+    width: 100%;
     background-color: rgba(204, 204, 204, 0.25);
 
 }
@@ -127,7 +127,7 @@ body {
     position: fixed;
     width: 100%;
     height:60px;
-    background-color: #F6EFFB;
+    background-color: #426B93;
 }
 #top-menu-item{
     height: 60px;
@@ -139,15 +139,16 @@ body {
 
 }
 #menuItems{
+    width: 240px;
+    height: 100%;
     position: fixed;
-    width:240px;
-    height:100%;
     background: #426B93;
-    -webkit-transition:all .3s ease-in-out;
-    -moz-transition:all .3s ease-in-out;
-    -o-transition:all .3s ease-in-out;
-    transition:all .3s ease-in-out;
+    -webkit-transition: all .3s ease-in-out;
+    -moz-transition: all .3s ease-in-out;
+    -o-transition: all .3s ease-in-out;
+    transition: all .3s ease-in-out;
 }
+
 #topDropDown{
     margin-right: 40px;
 
@@ -173,4 +174,40 @@ body {
     font-family: Arial;
     font-weight: bold;
     color: #AB4928;
+}
+
+#topmenulabel {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+}
+
+.sidebar.visible + .pusher {
+    width: calc(100% - 245px);
+}
+
+/*the dashboard elements*/
+.ui[class*="left aligned"].segment {
+    background-color: #42AD4A;
+}
+
+.ui[id="mgrow"].segment {
+    background-color: teal;
+}
+
+.ui[id="kcd"].segment {
+    background-color: #5A6B9F;
+}
+
+.ui[id="kcd2"].segment {
+    background-color: green;
+}
+
+.ui[id="mck"].segment {
+    background-color: #C31F2E;
+}
+
+.highcharts-container {
+    width: 100% !important;
+    height: 100% !important;
 }

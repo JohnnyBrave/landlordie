@@ -1,12 +1,13 @@
 var listVBAsURL = '/list/tenants';
-var editVBAsURL = '/editVBAs';
+var editTenantsURL = '/manage/edit_tenants';
 var listTenantsURL = '/list/tenants'
 
-var ManageTenants = React.createClass({
+var ManageTenants = createReactClass({
     getInitialState: function () {
         return {
             items: [],
             selectedVba: null,
+            selectedSubject: null,
             task: "",
             messageResponses: {
                 message: '',
@@ -47,29 +48,30 @@ var ManageTenants = React.createClass({
         $('Add_VBA_Modal')
             .modal('hide');
     },
-    _handleEditClick: function (vbacode) {
+    _handleEditClick: function (id_number) {
         $.ajax({
-            url: editVBAsURL + "?vbacode=" + vbacode,
+            url: editTenantsURL + "?id_number=" + id_number,
             method: 'GET',
             dataType: 'json',
             cache: false,
             success: function (data) {
-                this.setState({selectedVba: data, task: "Edit "});
+                this.setState({selectedSubject: data, task: "Edit "});
+
             }.bind(this),
             error: function (xhr, status, err) {
-                console.error(editVBAsURL, status, err.toString());
+                console.error(editTenantsURL, status, err.toString());
             }.bind(this)
         });
 
     },
     _handleDeleteClick: function (vbacode) {
         $.ajax({
-            url: editVBAsURL + "?userId=" + userId,
+            url: editTenantsURL + "?userId=" + userId,
             method: 'GET',
             dataType: 'json',
             cache: false,
             success: function (data) {
-                this.setState({selectedVba: data, task: "Edit "});
+                this.setState({editTenantsURL: data, task: "Edit "});
             }.bind(this),
             error: function (xhr, status, err) {
                 console.error(editVBAsURL, status, err.toString());
@@ -85,11 +87,11 @@ var ManageTenants = React.createClass({
     },
 
     render: function () {
-        var vbaForm = "";
+        var tenantForm = "";
         {
             this.state.selectedVba && (
-                vbaForm = <VbaForm
-                    vba={this.state.selectedVba}
+                tenantForm = <TenantForm
+                    person={this.state.selectedSubject}
                     textChanged={this._textChanged}
                     fullForm={true}
                     task={this.state.task}
@@ -97,50 +99,64 @@ var ManageTenants = React.createClass({
             )
         }
         return (
+            <div className={'ui fluid container'}>
+                <div className="ui hidden divider"></div>
+                <div className="ui hidden divider"></div>
+                <div className="ui hidden divider"></div>
+                <div className="ui equal width grid">
+                    <div className={'sixteen wide mobile eight wide tablet sixteen wide computer column'}>
+                        <div className="sixteen wide column">
+                            <div className="ui horizontal segment">
 
-            <div className="ui container">
-                {vbaForm}
-                <div className="row">
-                    <div className="ui hidden divider"></div>
-                    <div className="ui grid attached top header">
-                        <div className="two column row">
-                            <div className="left floated left aligned column">
-                                <h3>Manage Tenants</h3>
+                                <div className="ui hidden divider"></div>
+                                {tenantForm}
+                                <div className="row">
+                                    <div className="ui grid attached top header">
+                                        <div className="two column row">
+                                            <div className="left floated left aligned column">
+                                                <h3>Manage Tenants</h3>
+                                            </div>
+                                            <div className="right floated right aligned column">
+                                                <button className="ui primary button" type="button"
+                                                        onClick={this._handleEditClick}>
+                                                    Add
+                                                </button>
+
+                                            </div>
+
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                                <VbasTable
+                                    items={this.state.items}
+                                    _handleEditClick={this._handleEditClick}
+                                    _handleDeleteClick={this._handleDeleteClick}/>
+
+
                             </div>
-                            <div className="right floated right aligned column">
-                                <button className="ui primary button" type="button" onClick={this._handleEditClick}>
-                                    Add
-                                </button>
-
-                            </div>
-
-
                         </div>
-
                     </div>
-
                 </div>
-                <VbasTable
-                    items={this.state.items}
-                    _handleEditClick={this._handleEditClick}
-                    _handleDeleteClick={this._handleDeleteClick}/>
-
             </div>
+
 
         )
     }
 });
-var VbasTable = React.createClass({
+var VbasTable = createReactClass({
     render: function () {
         var vbaItems = null;
         var _this = this;
         {
             this.props.items && this.props.items.length > 0 && (
                 vbaItems = this.props.items.map(function (vbaItem, i) {
-                    var boundEditClick = _this.props._handleEditClick.bind(null, vbaItem.vbacode);
-                    var boundDeleteClick = _this.props._handleDeleteClick.bind(null, vbaItem.vbacode);
+                    var boundEditClick = _this.props._handleEditClick.bind(null, vbaItem.id_number);
+                    var boundDeleteClick = _this.props._handleDeleteClick.bind(null, vbaItem.id_number);
                     return (
-                        <VbaRow key={vbaItem.vbacode} index={i}
+                        <VbaRow key={vbaItem.id_number} index={i}
                                 vbaItem={vbaItem}
                                 _handleDeleteClick={boundDeleteClick}
                                 _handleEditClick={boundEditClick}/>
@@ -172,7 +188,7 @@ var VbasTable = React.createClass({
 
     }
 });
-var VbaRow = React.createClass({
+var VbaRow = createReactClass({
     render: function () {
         return (
             <tr>

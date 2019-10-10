@@ -7,46 +7,43 @@ import io.ebean.Model;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "vbas")
+@Table(name = "tenants")
 public class Tenants extends Model {
-    public static Finder<String, Tenants> find = new Finder<String, Tenants>(Tenants.class, "fips_db");
+    public static Finder<String, Tenants> find = new Finder<String, Tenants>(Tenants.class, "landlordie");
     @Id
-    @Column(name = "vbacode")
-    private String vbacode;
-    @Column(name = "vba_name")
-    private String vba_name;
+    @Column(name = "tenant_id")
+    private String tenant_id;
+    @Column(name = "id_type")
+    private String id_type;
+    @Column(name = "id_number")
+    private String id_number;
+    @Column(name = "first_name")
+    private String first_name;
+    @Column(name = "middle_name")
+    private String middle_name;
+    @Column(name = "last_name")
+    private String last_name;
     @Column(name = "phone_no")
     private String phone_no;
-    @Column(name = "gender")
-    private String gender;
-    @Column(name = "age")
-    private String age;
-    @Column(name = "latitude")
-    private String latitude;
-    @Column(name = "longitude")
-    private String longitude;
-    //    @ManyToOne
-//    @JoinColumn(name = "REF_ROLE_CD", insertable = false, updatable = false)
-//    private RefPersonRole role;
     @ManyToOne
-    @JoinColumn(name = "vba_network_id", referencedColumnName = "network_id")
+    @JoinColumn(name = "tenant_house_no", referencedColumnName = "house_no")
     @JsonBackReference
-    private Houses house_id;
+    private Houses house_no;
 
-    public String getVbacode() {
-        return vbacode;
+    public String getTenant_id() {
+        return tenant_id;
     }
 
-    public void setVbacode(String vbacode) {
-        this.vbacode = vbacode;
+    public void setTenant_id(String tenant_id) {
+        this.tenant_id = tenant_id;
     }
 
-    public String getVba_name() {
-        return vba_name;
+    public String getId_type() {
+        return id_type;
     }
 
-    public void setVba_name(String vba_name) {
-        this.vba_name = vba_name;
+    public void setId_type(String id_type) {
+        this.id_type = id_type;
     }
 
     public String getPhone_no() {
@@ -57,43 +54,44 @@ public class Tenants extends Model {
         this.phone_no = phone_no;
     }
 
-    public String getGender() {
-        return gender;
+    public String getId_number() {
+        return id_number;
     }
 
-    public void setGender(String gender) {
-        this.gender = gender;
+    public void setId_number(String id_number) {
+        this.id_number = id_number;
     }
 
-    public String getAge() {
-        return age;
+    public String getFirst_name() {
+        return first_name;
     }
 
-    public void setAge(String age) {
-        this.age = age;
+    public void setFirst_name(String first_name) {
+        this.first_name = first_name;
     }
 
-    public String getLatitude() {
-        return latitude;
+    public String getMiddle_name() {
+        return middle_name;
     }
 
-    public void setLatitude(String latitude) {
-        this.latitude = latitude;
+    public void setMiddle_name(String middle_name) {
+        this.middle_name = middle_name;
     }
 
-    public String getLongitude() {
-        return longitude;
+    public String getLast_name() {
+        return last_name;
     }
 
-    public void setLongitude(String longitude) {
-        this.longitude = longitude;
+    public void setLast_name(String last_name) {
+        this.last_name = last_name;
     }
 
-    public Houses getNetwork_id() {
-        return house_id;
+    public Houses getHouse_no() {
+        return house_no;
     }
 
-    public void setNetwork_id(Houses network_id) {
-        this.house_id = network_id;
+    public void setHouse_no(Houses house_no) {
+        this.house_no = house_no;
     }
+
 }

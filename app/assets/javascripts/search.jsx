@@ -8,7 +8,7 @@ var networksURL = '/list/networks';
 var departmentsURL = '/list/departments';
 
 
-var SearchActivity = React.createClass({
+var SearchActivity = createReactClass({
     getInitialState: function () {
         return {
             departmentOptions: [],
@@ -19,18 +19,10 @@ var SearchActivity = React.createClass({
             searchParameters: {
                 username: null,
                 searchType: null,
-                timeRange: null,
                 departments: null,
                 networks: null,
-                facilityId: null,
-                withPhoto: false,
                 fromDate: null,
                 toDate: null,
-                checkedInBy: null,
-                checkedOutBy: null,
-                visitorIdNumber: null,
-                visitorIdType: null,
-                vehicleNumberPlate: null,
             },
             messageResponses: {
                 message: '',
@@ -96,36 +88,6 @@ var SearchActivity = React.createClass({
         this.setState({searchParameters: tmp});
         this._loadNetworkOptions(passedValue.value)
     },
-
-
-    /*
-    *listener for ID Type selection changed
-    */
-    _idTypeChanged: function (passedValue) {
-        var tmp = this.state.searchParameters;
-        tmp.visitorIdType = passedValue.value;
-        this.setState({searchParameters: tmp});
-    },
-
-
-    /*
-    *listener for checked in by changed
-    */
-    _checkInByChanged: function (passedValue) {
-        var tmp = this.state.searchParameters;
-        tmp.checkedInBy = passedValue.value;
-        this.setState({searchParameters: tmp});
-
-    },
-
-    /*
-*listener for checked out by changed
-*/
-    _checkOutByChanged: function (passedValue) {
-        var tmp = this.state.searchParameters;
-        tmp.checkedOutBy = passedValue.value;
-        this.setState({searchParameters: tmp});
-    },
     /*
     * handles start date changed
     */
@@ -149,35 +111,6 @@ var SearchActivity = React.createClass({
         this.setState({
             searchParameters: dateEnd
         });
-    },
-
-    /*
-    * Handler for text changes on Visitor Id component
-    */
-    _textChangedIdNumber: function (event) {
-        var values = this.state.searchParameters;
-        values.visitorIdNumber = event.target.value;
-        values['' + event.target.name + ''] = event.target.value;
-        this.setState({searchParameters: values});
-
-    },
-    /*
-     * Handler for text changes on Vehicle Number Plate component
-     * */
-    _textChangedNumberPlate: function (event) {
-        var values = this.state.searchParameters;
-        values.vehicleNumberPlate = event.target.value;
-        values['' + event.target.name + ''] = event.target.value;
-        this.setState({searchParameters: values});
-
-    },
-    /*
-    *Handles the time range radio button options
-    */
-    _handleTimeRange: function (event) {
-        var values = this.state.searchParameters;
-        values.timeRange = event.target.value;
-        this.setState({searchParameters: values});
     },
 
     /* Handles option change for radio button search type*/
@@ -231,23 +164,19 @@ var SearchActivity = React.createClass({
     },
     /*clears all input on the form on cancel button click*/
     _cancelSearch: function () {
+        console.log("we are inside cancel search");
+        console.log("the values to be reset are: " + JSON.stringify(this.state.searchParameters))
         this.setState({
             searchParameters: {
+                username: null,
                 searchType: null,
-                timeRange: null,
                 departments: null,
-                departmentCode: null,
-                facilityId: null,
-                withPhoto: false,
+                networks: null,
                 fromDate: null,
                 toDate: null,
-                checkedInBy: null,
-                checkedOutBy: null,
-                visitorIdNumber: null,
-                visitorIdType: null,
-                vehicleNumberPlate: null,
             },
         });
+        console.log("the values that have been reset are: " + JSON.stringify(this.state.searchParameters))
     },
 
 
@@ -274,8 +203,8 @@ var SearchActivity = React.createClass({
         });
     },
     /*
-*definition of handler for collecting network options
-*/
+    *definition of handler for collecting network options
+    */
 
     _loadNetworkOptions: function (networks) {
         var params = JSON.stringify(networks)
@@ -382,168 +311,186 @@ var SearchActivity = React.createClass({
     render: function () {
         <VbaTable searchResults={this.state.searchResults}/>
         return (
+            <div className={'ui fluid container'}>
+                <div className="ui hidden divider"></div>
+                <div className="ui hidden divider"></div>
+                <div className="ui hidden divider"></div>
+                <div className="ui equal width grid">
+                    <div className={'sixteen wide mobile eight wide tablet sixteen wide computer column'}>
+                        <div className="sixteen wide column">
+                            <div className="ui horizontal segment">
+                                <div className="row">
 
-            <div className="ui page grid">
+                                    <div className="ui grid attached top header">
 
-                <div className="ui segment">
+                                        <div className="two column row">
+                                            <div className="left floated left aligned column"><h3>Search for VBAs,
+                                                Farmers, Trainings & Interventions</h3>
+                                            </div>
+                                            <div className="right floated right aligned column">
 
-                    <div className="ui  stackable cards">
-                        <div className="card">
-                            <div className="content">
-                                <h2 className="header">Ram Usage by accounts</h2>
-                                <div className="ui divider"></div>
-                                <table>
-                                    <tr>
-                                        <td>
-                                            <canvas id="ramUsageChart"></canvas>
-                                        </td>
-                                        <td className="chartData"></td>
-                                    </tr>
-                                </table>
-                            </div>
-                        </div>
-                        <div className="card">
-                            <div className="content">
-                                <h2 className="header">Disc Usage</h2>
-                                <div className="ui divider"></div>
-                                <table>
-
-                                    <tr>
-                                        <td>
-                                            <canvas id="discUsageChart"></canvas>
-                                        </td>
-                                        <td className="chartData"></td>
-                                    </tr>
-                                </table>
-                            </div>
-                        </div>
-                        <div className="card">
-                            <div className="content">
-                                <h2 className="header">Bandwidth Usage by accounts</h2>
-                                <div className="ui divider"></div>
-                                <canvas id="bandwidthUsageChart"></canvas>
-                            </div>
-                        </div>
-                        <div className="card">
-                            <div className="content">
-                                <h2 className="header">New Accounts Report</h2>
-                                <div className="ui divider"></div>
-                                <canvas id="newAccountsChart"></canvas>
-                            </div>
-                        </div>
-                    </div>
-
-
-                </div>
-                <div className="ui segment">
-                    <div className="row">
-                        <div className="column">
-                            <div className="ui grid attached top header">
-                                <div className="two column row">
-                                    <div className="left floated left aligned column"><h3>Search for VBAs & Farmers</h3>
-                                    </div>
-                                    <div className="right floated right aligned column">
-
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-
-                    <form className="ui form">
-                        <div className="ui segments">
-                            <div className="field">
-                                <div className="two fields">
-                                    <div className="ui hidden divider"></div>
-                                    <div className="ui hidden divider"></div>
-                                    <div className="field">
-                                        <div className="ui toggle checkbox">
-                                            <input
-                                                type="radio"
-                                                name="searchType"
-                                                value="Vba"
-                                                checked={this.state.searchParameters && this.state.searchParameters.searchType === 'Vba'}
-                                                onChange={this._handleSearchOptionChange}
-                                            />
-                                            <label>VBAs</label>
-                                        </div>
-                                    </div>
-                                    <div className="field">
-                                        <div className="ui toggle checkbox">
-                                            <input
-                                                type="radio"
-                                                name="searchType"
-                                                value="Farmers"
-                                                checked={this.state.searchParameters && this.state.searchParameters.searchType === 'Farmers'}
-                                                onChange={this._handleSearchOptionChange}
-                                            />
-                                            <label>Farmers</label>
+                                            </div>
                                         </div>
 
                                     </div>
-
                                 </div>
+                                <div className="ui hidden divider"></div>
 
+                                <form className="ui form">
+                                    <div className="ui segments">
+                                        <div className="ui hidden divider"></div>
+                                        <div className="field">
+                                            <div className="two fields">
+                                                <div className="ui hidden divider"></div>
+                                                <div className="ui hidden divider"></div>
+                                                <div className="field">
+                                                    <div className="ui toggle checkbox">
+                                                        <input
+                                                            type="radio"
+                                                            name="searchType"
+                                                            value="Vba"
+                                                            checked={this.state.searchParameters && this.state.searchParameters.searchType === 'Vba'}
+                                                            onChange={this._handleSearchOptionChange}
+                                                        />
+                                                        <label>VBAs</label>
+                                                    </div>
+                                                </div>
+                                                <div className="field">
+                                                    <div className="ui toggle checkbox">
+                                                        <input
+                                                            type="radio"
+                                                            name="searchType"
+                                                            value="Farmers"
+                                                            checked={this.state.searchParameters && this.state.searchParameters.searchType === 'Farmers'}
+                                                            onChange={this._handleSearchOptionChange}
+                                                        />
+                                                        <label>Farmers</label>
+                                                    </div>
+
+                                                </div>
+                                                <div className="field">
+                                                    <div className="ui toggle checkbox">
+                                                        <input
+                                                            type="radio"
+                                                            name="searchType"
+                                                            value="Trainings"
+                                                            checked={this.state.searchParameters && this.state.searchParameters.searchType === 'Trainings'}
+                                                            onChange={this._handleSearchOptionChange}
+                                                        />
+                                                        <label>Trainings</label>
+                                                    </div>
+
+                                                </div>
+                                                <div className="field">
+                                                    <div className="ui toggle checkbox">
+                                                        <input
+                                                            type="radio"
+                                                            name="searchType"
+                                                            value="Interventions"
+                                                            checked={this.state.searchParameters && this.state.searchParameters.searchType === 'Interventions'}
+                                                            onChange={this._handleSearchOptionChange}
+                                                        />
+                                                        <label>Interventions</label>
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+
+                                    </div>
+
+
+                                    <div className="four fields">
+
+                                        <div className="field">
+                                            <label>Programs</label>
+
+                                            <SingleSelect
+                                                name="country.code"
+                                                placeholder="Department"
+                                                options={this.state.departmentOptions}
+                                                selectedValue={this.state.searchParameters && this.state.searchParameters.departments}
+                                                value={this.state.searchParameters && this.state.searchParameters.departments}
+                                                _valueChanged={this._departmentChanged}
+                                                selectUrl={departmentsURL}/>
+                                        </div>
+
+
+                                        <div className="field">
+                                            <label>Network</label>
+                                            <SingleSelect
+                                                name="networkOptions"
+                                                placeholder="Network"
+                                                options={this.state.networkOptions}
+                                                selectedValue={this.state.searchParameters && this.state.searchParameters.networks}
+                                                value={this.state.searchParameters && this.state.searchParameters.networks}
+                                                _valueChanged={this._networkChanged}
+                                                selectUrl={networksURL}/>
+                                        </div>
+                                        <div className="field">
+                                            <label>From: <span>*</span></label>
+
+                                            <Input type="dateOnly"
+
+                                                   id={'fromDate'}
+                                                   name={'fromDate'}
+                                                   isrequired={false}
+                                                   selected={this.state.fromDate}
+                                                   onChange={this._handleFromDate}
+                                                   value={this.state.searchParameters && this.state.searchParameters.fromDate}/>
+
+                                        </div>
+                                        <div className="field">
+                                            <label>To: <span>*</span></label>
+
+                                            <Input type="dateOnly"
+                                                   id={'toDate'}
+                                                   name={'toDate'}
+                                                   isrequired={false}
+                                                   selected={this.state.toDate}
+                                                   onChange={this._handleToDate}
+                                                   value={this.state.searchParameters && this.state.searchParameters.toDate}/>
+                                        </div>
+
+
+                                    </div>
+
+
+                                    <div className="ui bottom attached segment">
+
+                                        <button type="button"
+                                                className="ui primary button"
+                                                tabIndex="0"
+                                                onClick={this._handleSearchClick}>Search
+                                        </button>
+                                        <button type="button" className="ui red button"
+                                                onClick={this._cancelSearch}>Cancel
+                                        </button>
+
+                                        {this.state.searchParameters.searchType !== null ?
+                                            <button type="button" className="right floated ui primary button"
+                                                    tabIndex="0"
+                                                    onClick={this._handleVisitExportClickTest}>Export</button> : null}
+                                    </div>
+
+                                </form>
                             </div>
-
-
+                            {this.state.searchParameters.searchType == 'Vba' && this.showResults ?
+                                <VbaTable searchResults={this.state.searchResults}/> : null}
+                            {this.state.searchParameters.searchType == 'Farmers' && this.showResults ?
+                                <FarmersTable searchResults={this.state.searchResults}/> : null}
+                            {this.state.searchParameters.searchType == 'Trainings' && this.showResults ?
+                                <TrainingsTable searchResults={this.state.searchResults}/> : null}
+                            {this.state.searchParameters.searchType == 'Interventions' && this.showResults ?
+                                <InterventionsTable searchResults={this.state.searchResults}/> : null}
                         </div>
-
-
-                        <div className="two fields">
-
-                            <div className="field">
-                                <label>Programs</label>
-                                <SingleSelect
-                                    name="country.code"
-                                    placeholder="Department"
-                                    options={this.state.departmentOptions}
-                                    selectedValue={this.state.searchParameters && this.state.searchParameters.departments}
-                                    _valueChanged={this._departmentChanged}
-                                    selectUrl={departmentsURL}/>
-                            </div>
-
-
-                            <div className="field">
-                                <label>Network</label>
-                                <SingleSelect
-                                    name="country.code"
-                                    placeholder="Network"
-                                    options={this.state.networkOptions}
-                                    selectedValue={this.state.searchParameters && this.state.searchParameters.networks}
-                                    _valueChanged={this._networkChanged}
-                                    selectUrl={networksURL}/>
-                            </div>
-
-
-                        </div>
-
-                        <div className="ui bottom attached segment">
-
-                            <button type="button"
-                                    className="ui primary button"
-                                    tabIndex="0"
-                                    onClick={this._handleSearchClick}>Search
-                            </button>
-                            <button type="button" className="ui red button"
-                                    onClick={this._cancelSearch}>Cancel
-                            </button>
-
-                            {this.state.searchParameters.searchType !== null ?
-                                <button type="button" className="right floated ui primary button" tabIndex="0"
-                                        onClick={this._handleVisitExportClickTest}>Export</button> : null}
-                        </div>
-
-                    </form>
-
-
+                    </div>
                 </div>
-                {this.state.searchParameters.searchType == 'Vba' && this.showResults ?
-                    <VbaTable searchResults={this.state.searchResults}/> : null}
-                {this.state.searchParameters.searchType == 'Farmers' && this.showResults ?
-                    <FarmersTable searchResults={this.state.searchResults}/> : null}
             </div>
+
 
 
         );
@@ -552,7 +499,7 @@ var SearchActivity = React.createClass({
 
 //Search results table component called VbaTable begins here
 //This component will display the visit search results
-var VbaTable = React.createClass({
+var VbaTable = createReactClass({
     render: function () {
         var resultItems = "";
         var _this = this;
@@ -583,13 +530,9 @@ var VbaTable = React.createClass({
                             <th>VBA Name</th>
                             <th>Gender</th>
                             <th>Phone Number</th>
-
-
                         </tr>
                         </thead>
-                        <tbody>
-                        {resultItems}
-                        </tbody>
+                        <tbody>{resultItems}</tbody>
                     </table>
                 </div>
             </div>
@@ -597,7 +540,7 @@ var VbaTable = React.createClass({
     }
 });
 
-var VbasearchResultsRow = React.createClass({
+var VbasearchResultsRow = createReactClass({
     render: function () {
         return (
             <tr>
@@ -613,7 +556,7 @@ var VbasearchResultsRow = React.createClass({
 
 //Search results table component called DriveinsTable begins here
 //This component will display the drive search results
-var FarmersTable = React.createClass({
+var FarmersTable = createReactClass({
     render: function () {
         var resultItems = "";
         var _this = this;
@@ -663,24 +606,147 @@ var FarmersTable = React.createClass({
     }
 });
 
-var FarmersSearchResultsRow = React.createClass({
+var FarmersSearchResultsRow = createReactClass({
     render: function () {
         return (
             <tr>
-                <td>{this.props.resultItem.vehicle.plateNumber}</td>
-                <td>{this.props.resultItem.entryTime}</td>
-                <td>{this.props.resultItem.entryOccupants}</td>
-                <td>{this.props.resultItem.checkInBy.name}</td>
-                <td>{this.props.resultItem.exitTime}</td>
-                <td>{this.props.resultItem.exitOccupants}</td>
-                <td>{this.props.resultItem.checkOutBy.name}</td>
+                <td>{this.props.resultItem.vbacode}</td>
+                <td>{this.props.resultItem.vba_name}</td>
+                <td>{this.props.resultItem.gender}</td>
+                <td>{this.props.resultItem.phone_no}</td>
+            </tr>
+        );
+    }
+});
+
+//Trainings table results table component called TrainingsTable begins here
+//This component will display the visit search results
+var TrainingsTable = createReactClass({
+    render: function () {
+        var resultItems = "";
+        var _this = this;
+        {
+            this.props.searchResults && this.props.searchResults.length > 0 && (
+                resultItems = this.props.searchResults.map(function (resultItem, i) {
+                    return (
+                        <TrainingssearchResultsRow
+                            key={resultItem.vbacode}
+                            index={i}
+                            resultItem={resultItem}
+
+                        />
+                    )
+                }, this))
+        }
+
+        return (
+
+            <div className="row">
+
+                <div id="trainingsTable" className="vbaTable">
+                    <h3 className="ui top attached header">Search Results</h3>
+                    <table className="ui fixed single line celled unstackable striped attached table">
+                        <thead>
+                        <tr>
+                            <th>Training Topic</th>
+                            <th>Attendee</th>
+                            <th>HHCD</th>
+                            <th>Gender</th>
+                            <th>Age</th>
+                            <th>Boy(s) Below 2 Years</th>
+                            <th>Girl(s) Below 2 Years</th>
+
+
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {resultItems}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        )
+    }
+});
+
+var TrainingssearchResultsRow = createReactClass({
+    render: function () {
+        return (
+            <tr>
+                <td>{this.props.resultItem.vbacode}</td>
+                <td>{this.props.resultItem.vba_name}</td>
+                <td>{this.props.resultItem.gender}</td>
+                <td>{this.props.resultItem.phone_no}</td>
+
             </tr>
         );
     }
 });
 
 
-var Search = React.createClass({
+//Interventions table results table component called InterventionsTable begins here
+//This component will display the visit search results
+var InterventionsTable = createReactClass({
+    render: function () {
+        var resultItems = "";
+        var _this = this;
+        {
+            this.props.searchResults && this.props.searchResults.length > 0 && (
+                resultItems = this.props.searchResults.map(function (resultItem, i) {
+                    return (
+                        <InterventionssearchResultsRow
+                            key={resultItem.vbacode}
+                            index={i}
+                            resultItem={resultItem}
+
+                        />
+                    )
+                }, this))
+        }
+
+        return (
+
+
+            <div className="row">
+
+                <div id="trainingsTable" className="vbaTable">
+                    <h3 className="ui top attached header">Search Results</h3>
+                    <table className="ui fixed single line celled unstackable striped attached table">
+                        <thead>
+                        <tr>
+                            <th>HHCODE</th>
+                            <th>Maize</th>
+                            <th>Brachiaria</th>
+                            <th>Sweetpotatoes</th>
+
+
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {resultItems}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        )
+    }
+});
+
+var InterventionssearchResultsRow = createReactClass({
+    render: function () {
+        return (
+            <tr>
+                <td>{this.props.resultItem.vbacode}</td>
+                <td>{this.props.resultItem.vba_name}</td>
+                <td>{this.props.resultItem.gender}</td>
+                <td>{this.props.resultItem.phone_no}</td>
+
+            </tr>
+        );
+    }
+});
+
+var Search = createReactClass({
     getInitialState: function () {
         return {
             options: []
@@ -694,7 +760,7 @@ var Search = React.createClass({
 
     render: function () {
         return (
-            <div className="ui container">
+            <div>
                 <SearchActivity/>
             </div>
         );

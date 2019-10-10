@@ -1,4 +1,4 @@
-const Charts = window.Charts = React.createClass({
+const Charts = createReactClass({
 
     componentDidMount: function () {
 
@@ -15,24 +15,14 @@ const Charts = window.Charts = React.createClass({
             },
 
             subtitle: {
-                text: '(30 Days)'
+                text: 'source: Reporting Department at FIPS-AFRICA'
             },
 
-            xAxis: {
-                categories: this.props.categories,
-                type: 'datetime',
-                text: 'Date & Time',
-
-                dateTimeLabelFormats: {
-
-                    day: '%e. %b',
-                }
-            },
 
 
             yAxis: {
                 title: {
-                    text: 'Visitors'
+                    text: this.props.yAxisLable
                 }
 
             },
@@ -41,6 +31,15 @@ const Charts = window.Charts = React.createClass({
                 layout: 'vertical',
                 align: 'right',
                 verticalAlign: 'middle'
+            },
+            plotOptions: {
+                series: {
+
+                    label: {
+                        connectorAllowed: false
+                    },
+                    pointStart: 2011
+                }
             },
 
             // plotOptions: {
