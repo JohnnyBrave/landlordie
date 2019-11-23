@@ -10,10 +10,10 @@ function Login (){
                     <h2 className="ui center aligned icon header">
                         <img id="apartmentslogo" className="ui image" src="/assets/images/apartments.png"/>
                         <div id="logo_desc" className="content">
-                            Oasis
+                            E-Kodie System
                         </div>
                         <div id="logo_desc2" className="content">
-                            Managing tenants and bills for landlords made easy
+                            Managing tenants and bills for property managers  made easy
                         </div>
 
                     </h2>

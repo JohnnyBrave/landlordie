@@ -174,5 +174,24 @@ var Modal = createReactClass({
         );
     }
 });
+/**
+ * Page Loader component
+ * @type {*|Function}
+ */
+var Loader = createReactClass({
+    displayName: "Loader",
+
+    render: function render() {
+        return (
+
+            <div className="ui active transition visible inverted dimmer">
+                <div className="content"><div className="ui large text loader">Loading ...</div></div>
+            </div>
+
+
+
+        );
+    }
+});
 
 

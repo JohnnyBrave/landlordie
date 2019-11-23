@@ -1,10 +1,8 @@
 package controllers;
 
 
-import models.Departments;
-import models.RefUserRoles;
-import models.Tenants;
-import models.Users;
+import com.fasterxml.jackson.databind.JsonNode;
+import models.*;
 import play.libs.Json;
 import play.mvc.Result;
 import utils.DepartmentComparator;
@@ -19,7 +17,6 @@ public class ListManagerController extends AppController {
 
     /*Returns the current user*/
     public Result currentUser() {
-
         Users currentUser = Authority.getPerson(ctx());
         System.out.println("The current user is: " + Json.toJson(currentUser));
         return ok(Json.toJson(currentUser));
@@ -31,14 +28,14 @@ public class ListManagerController extends AppController {
      * @return
      * */
     public Result proxyRoles() {
-        System.out.println("Inside proxt Roles");
+        System.out.println("Inside proxy Roles");
         Users currentUser = Authority.getPerson(ctx());
         System.out.println("The current user is: " + currentUser.getEmail());
         System.out.println("The roles of the current user are: " + currentUser.getRolesList());
 
         if (isSuper()) {
             List<RefUserRoles> results = RefUserRoles.find.query().order("role_code").findList();
-            System.out.println("The RefUserRole results are: " + results.toString());
+            System.out.println("The RefUserRoles results are: " + results.toString());
 
             return ok(Json.toJson(refactor(results)));
         } else if (currentUser.getRoles().size() > 1) {
@@ -77,7 +74,7 @@ public class ListManagerController extends AppController {
 //        return ok(Json.toJson(refactor(departments)));
 //    }
     /*
-     * Returns a listing of authorised departements as a n options list depending on the rights of the user
+     * Returns a listing of authorised departements as an options list depending on the rights of the user
      * */
     public Result listDepartments() {
         List<Departments> departments = new ArrayList<Departments>();
@@ -89,25 +86,72 @@ public class ListManagerController extends AppController {
         }
         return ok(Json.toJson(refactor(departments)));
     }
+
     /*
-     * Returns a list of networks as an options list based upon which programs/departments they comne from
+     * Returns a list of Houses as an options list based upon which programs/departments they comne from
      * */
-//    public  Result listNetworksByDepartment(){
-//        String currentDepartment = session().get(Util.DEPARTMENT);
-//        System.out.println("The current department you're in is: "+currentDepartment);
-//        List<Networks> networks = new ArrayList<Networks>();
-//        if (isSuper() && !isProxy()){
-//            networks = Networks.find.all();
-//            System.out.println("This is a super user in the: "+currentDeparment().getDepartment_name()+ " program by default and the networks available for them are: "+Json.toJson(refactor(networks)) );
+    public Result listHousesByDepartment() {
+        //we are getting the chosen deepartment
+        JsonNode departmentNode = request().body().asJson();
+        String selectedDepartment = departmentNode.asText();
+        if(departmentNode.isNull()){
+            return badRequest(errorMessage("Unable to get Houses in the chosen department"));
+        }
+        System.out.println("The user has selected the department: "+selectedDepartment);
+        String currentDepartment = session().get(Util.DEPARTMENT);
+        System.out.println("The current department you're in is: " + currentDepartment);
+        List<Houses> Houses = new ArrayList<Houses>();
+        /*here the system was only displaying Houses based on if the suer is registered as supper or not.
+        * this feature will be scrapped off but may be used in the future. For now we will display Houses based on if the user has selected its parent
+        * department*/
+//        if (isSuper() && !isProxy()) {
+//            Houses = Houses.find.all();
+//            System.out.println("This is a super user in the: " + currentDeparment().getDepartment_name() + " program by default and the Houses available for them are: " + Json.toJson(refactor(Houses)));
+//        } else {
+//            Houses = Houses.find.query().where()
+//                    .eq("network_department", currentDepartment).order("network_name asc").findList();
+//            System.out.println("This is a regular user in the: " + currentDeparment().getDepartment_name() + " program by default and the Houses available for them are: " + Json.toJson(refactor(Houses)));
 //        }
-//        else {
-//            networks = Networks.find.query().where()
-//                    .eq("network_department",currentDepartment).order("network_name asc").findList();
-//            System.out.println("This is a regular user in the: "+currentDeparment().getDepartment_name()+ " program by default and the networks available for them are: "+Json.toJson(refactor(networks)) );
+//        if (isSuper()){
+//            Houses = Houses.find.query().where()
+//                    .eq("network_department",selectedDepartment).order("network_name asc").findList();
+//            System.out.println("This is a super user in the: " + currentDeparment().getDepartment_name() + " program by default and the Houses available for them are: " + Json.toJson(refactor(Houses)));
+//        } else {
+//            Houses = Houses.find.query().where()
+//                    .eq("network_department", currentDepartment).order("network_name asc").findList();
+//            System.out.println("This is a regular user in the: " + currentDeparment().getDepartment_name() + " program by default and the Houses available for them are: " + Json.toJson(refactor(Houses)));
 //        }
-//        return ok(Json.toJson(refactor(networks)));
+        return ok(Json.toJson(refactor(Houses)));
+
+
+    }
+//    public static Users getPerson(C) {
+//        return (isLoggedIn(context) ? Users.find.byId(getUser(context)) : null);
 //
-//
+//    }
+//    public Result listHousesBasedOnUserInput(){
+//        return (Houses.find.byId())
+//    }
+
+
+    /**
+     * returns a listing of authorized security officers as an options list depending on the unit they belong to
+     *
+     * @return
+     */
+//    public Result listGuardsByFacility(){
+//        JsonNode facilityIdNode = request().body().asJson();
+//        if(facilityIdNode.isNull()){
+//            return badRequest(errorMessage("Unable to get a list of guards"));
+//        }
+//        String facilityId = facilityIdNode.asText();
+//        System.out.println("facilityId "+facilityId);
+//        List<PersonRole> personRoles = PersonRole.find.where().eq("facility.id", facilityId).eq("role.cd", "SECOF").findList();
+//        Set<Person> persons = new HashSet<Person>();
+//        for(PersonRole personRole: personRoles){
+//            persons.add(personRole.getPerson());
+//        }
+//        return ok(Json.toJson(refactor(persons)));
 //
 //    }
 
@@ -153,12 +197,40 @@ public class ListManagerController extends AppController {
         return ok(Json.toJson(refactor(userRoleList)));
     }
 
-    public Result listTenants() {
-        List<Tenants> tenants = Tenants.find.all();
+    /*
+     * Returns a list of Department Roles as an option list depending on the role of the
+     * currently logged in user
+     * @return
+     * */
+//    public Result listOrganizationRoles(){
+//        List<RefOrganizationRole> organizationRoles = new ArrayList<>();
+//        List<String> allowedRoles = new ArrayList<>();
+//        if(isSysAdmin() && !isProxy()) {
+//            allowedRoles.add("MGR");
+//            allowedRoles.add("SEC");
+//            allowedRoles.add("TEN");
+//            allowedRoles.add("SYS");
+//        }else if (isBuildingDirector()) {
+//            allowedRoles.add("MGR");
+//            allowedRoles.add("SEC");
+//            allowedRoles.add("TEN");
+//        }else if(isBuildingManager()) {
+//            allowedRoles.add("TEN");
+//        }
+//        organizationRoles = RefOrganizationRole.find.where().in("cd", allowedRoles).findList();
+//        return ok(Json.toJson(refactor(organizationRoles)));
+//    }
+
+    public Result listTenants(){
+        List<Tenants> tenants = Tenants.find.query()
+                .setMaxRows(100)
+                .findList();
+
         System.out.println("Inside list Tenants");
-        System.out.println("The tenants are: " + tenants.size() + " in number");
+        System.out.println("The Tenants  are: "+tenants.size()+" in number");
         return ok(Json.toJson(tenants));
     }
+
 
 
     private <T> List<Option> refactor(Collection<T> collection) {
@@ -173,12 +245,22 @@ public class ListManagerController extends AppController {
             } else if (item instanceof RefUserRoles) {
                 RefUserRoles val = (RefUserRoles) item;
                 result.add(new Option(val.getRole(), val.getRole_code()));
-            } else if (item instanceof Users) {
+            }
+//            else if (item instanceof Houses) {
+//                Houses val = (Houses) item;
+//                result.add(new Option(val.getNetwork_name(), val.getNetwork_id()));
+//            }
+            else if (item instanceof Users) {
                 Users val = (Users) item;
                 result.add(new Option(val.getEmail(), val.getIdentifier()));
-            } else if (item instanceof Tenants) {
+            }
+//            else if (item instanceof Vbas){
+//                Vbas val = (Vbas) item;
+//                result.add(new Option(val.getVba_name(),val.getVbacode()));
+//            }
+            else if (item instanceof Tenants){
                 Tenants val = (Tenants) item;
-                result.add(new Option(val.getId_number(), val.getPhone_no()));
+                result.add(new Option(val.getLast_name(),val.getId_number()));
             }
         }
         return result;

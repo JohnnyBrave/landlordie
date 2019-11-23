@@ -1,12 +1,11 @@
 var listVBAsURL = '/list/tenants';
-var editTenantsURL = '/manage/edit_tenants';
+var editTenantsURL = '/manage/editTenants';
 var listTenantsURL = '/list/tenants'
 
 var ManageTenants = createReactClass({
     getInitialState: function () {
         return {
             items: [],
-            selectedVba: null,
             selectedSubject: null,
             task: "",
             messageResponses: {
@@ -17,9 +16,9 @@ var ManageTenants = createReactClass({
         }
 
     },
-    _loadVbas: function () {
+    _loadTenants: function () {
         $.ajax({
-            url: listVBAsURL,
+            url: listTenantsURL,
             method: 'GET',
             dataType: 'json',
             cache: false,
@@ -27,15 +26,23 @@ var ManageTenants = createReactClass({
                 this.setState({items: data, messageResponses: {message: 'VBAs loaded', type: 'info', hidden: false}});
             }.bind(this),
             error: function (xhr, status, err) {
-                console.error(listVBAsURL, status, err.toString());
+                console.error(listTenantsURL, status, err.toString());
             }.bind(this)
         });
 
     },
+    _startPageLoader: function () {
+        this.setState({ isLoading: true });
+    },
+
+    _stopPageLoader: function () {
+        this.setState({ isLoading: false });
+    },
+
     componentDidMount: function () {
         $('.ui.dropdown')
             .dropdown();
-        this._loadVbas();
+        this._loadTenants();
     },
     showModal: function () {
         $('Add_VBA_Modal.ui.basic.modal')
@@ -80,16 +87,16 @@ var ManageTenants = createReactClass({
 
     },
     _textChanged: function (event) {
-        var values = this.state.selectedVba;
+        var values = this.state.selectedSubject;
         values['' + event.target.name + ''] = event.target.value;
-        this.setState({selectedVba: values});
+        this.setState({selectedSubject: values});
 
     },
 
     render: function () {
         var tenantForm = "";
         {
-            this.state.selectedVba && (
+            this.state.selectedSubject && (
                 tenantForm = <TenantForm
                     person={this.state.selectedSubject}
                     textChanged={this._textChanged}
@@ -130,7 +137,7 @@ var ManageTenants = createReactClass({
                                     </div>
 
                                 </div>
-                                <VbasTable
+                                <TenantsTable
                                     items={this.state.items}
                                     _handleEditClick={this._handleEditClick}
                                     _handleDeleteClick={this._handleDeleteClick}/>
@@ -146,18 +153,18 @@ var ManageTenants = createReactClass({
         )
     }
 });
-var VbasTable = createReactClass({
+var TenantsTable = createReactClass({
     render: function () {
-        var vbaItems = null;
+        var subjectItems = null;
         var _this = this;
         {
             this.props.items && this.props.items.length > 0 && (
-                vbaItems = this.props.items.map(function (vbaItem, i) {
-                    var boundEditClick = _this.props._handleEditClick.bind(null, vbaItem.id_number);
-                    var boundDeleteClick = _this.props._handleDeleteClick.bind(null, vbaItem.id_number);
+                subjectItems = this.props.items.map(function (subjectItem, i) {
+                    var boundEditClick = _this.props._handleEditClick.bind(null, subjectItem.id_number);
+                    var boundDeleteClick = _this.props._handleDeleteClick.bind(null, subjectItem.id_number);
                     return (
-                        <VbaRow key={vbaItem.id_number} index={i}
-                                vbaItem={vbaItem}
+                        <TenantRow key={subjectItem.id_number} index={i}
+                                subjectItem={subjectItem}
                                 _handleDeleteClick={boundDeleteClick}
                                 _handleEditClick={boundEditClick}/>
                     )
@@ -166,10 +173,12 @@ var VbasTable = createReactClass({
         }
         return (
             <div className="row">
-                <table className="ui fixed single line celled unstackable striped table">
+                <table className="ui fixed single line celled stackable striped table">
                     <thead>
                     <tr>
                         <th>House Id</th>
+                        <th>ID Type</th>
+                        <th>ID Number</th>
                         <th>Tenant Name</th>
                         <th>Gender</th>
                         <th>Phone Number</th>
@@ -178,7 +187,7 @@ var VbasTable = createReactClass({
                     </tr>
                     </thead>
                     <tbody>
-                    {vbaItems}
+                    {subjectItems}
                     </tbody>
 
                 </table>
@@ -188,14 +197,14 @@ var VbasTable = createReactClass({
 
     }
 });
-var VbaRow = createReactClass({
+var TenantRow = createReactClass({
     render: function () {
         return (
             <tr>
-                <td>{this.props.vbaItem.vbacode}</td>
-                <td>{this.props.vbaItem.vba_name}</td>
-                <td>{this.props.vbaItem.gender}</td>
-                <td>{this.props.vbaItem.phone_no}</td>
+                <td>{this.props.subjectItem.vbacode}</td>
+                <td>{this.props.subjectItem.vba_name}</td>
+                <td>{this.props.subjectItem.gender}</td>
+                <td>{this.props.subjectItem.phone_no}</td>
                 <td>
                     <button type="button" className="ui icon green submit button" onClick={this.props._handleEditClick}>
                         <i className="edit icon"/>

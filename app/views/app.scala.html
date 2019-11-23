@@ -12,16 +12,12 @@
             </script>
 
             <main id="page">
-                <div class="ui bottom attached segment pushable">
-                    <div id="modal"></div>
+                @*<div id="menu"></div>*@
+                <div id="sideBar"></div>
+                <div class="pusher" id="content">
                     <div id="menu"></div>
-                    <div id="sideBar"></div>
-                    <div id="pusher">
-
-                        <div id="content">
-                        @appContent
-                        </div>
-                    </div>
+                    <div>@appContent</div>
+                </div>
 
 
                     <footer class="ui inverted vertical fixed footer segment" style="position: fixed;
@@ -31,7 +27,7 @@
                         background-color: transparent;">
                         <div class="row" >
 
-                            <a href="#page"><i id="page1" class="toggle up icon" style="float: right;
+                            <a href="#page"><i id="page1" class="chevron circle up icon" style="float: right;
                                 margin-right: 20px;
                                 font-size: 50px;
                                 color: #ab4928;"></i></a>
@@ -91,6 +87,6 @@
     <script type='text/javascript' src='@routes.Assets.at("javascripts/util/sharedComponents.js")'></script>
     <script type='text/javascript' src='@routes.Assets.at("semantic/components/calendar.js")'></script>
     <script type='text/javascript' src='@routes.Assets.at("javascripts/util/permit.js")'></script>
-    <script type='text/javascript' src='@routes.Assets.at("javascripts/components/topMenuBar.js")'></script>
-    <script type='text/javascript' src='@routes.Assets.at("javascripts/components/sidebar.js")'></script>
+    <script type='text/javascript' src='@routes.Assets.at("javascripts/components/topMenuBar2.js")'></script>
+    <script type='text/javascript' src='@routes.Assets.at("javascripts/components/sidebar2.js")'></script>
     <script type='text/javascript' src='@routes.Assets.at("javascripts/highcharts.js")'></script>

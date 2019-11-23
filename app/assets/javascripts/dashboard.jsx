@@ -1,36 +1,37 @@
-var networksURL = '/list/networks';
-var departmentsURL = '/list/departments';
+var getUserURL = '/list/currentuser';
+var listTenantsURL = '/list/tenants';
 var Dash = createReactClass({
 
     getInitialState: function () {
         return {
-            departmentOptions: [],
-            networkOptions: [],
-            usernameOptions: [],
-            searchResults: [],
-
-            searchParameters: {
-                username: null,
-                searchType: null,
-                timeRange: null,
-                departments: null,
-                networks: null,
-                facilityId: null,
-                withPhoto: false,
-                fromDate: null,
-                toDate: null,
-                checkedInBy: null,
-                checkedOutBy: null,
-                visitorIdNumber: null,
-                visitorIdType: null,
-                vehicleNumberPlate: null,
-            },
+            userData: [],
             messageResponses: {
                 message: '',
                 type: '',
                 hidden: true,
             }
         }
+    },
+    _loadUser: function () {
+        $.ajax({
+            url: getUserURL,
+            method: 'GET',
+            contentType: "json",
+            dataType: 'json',
+            cache: false,
+            success: function (data) {
+                this.setState({userData: data});
+                console.log("The user's email is: " + data.toString())
+            }.bind(this),
+            error: function (xhr, status, err) {
+                console.error(getUserURL, status, err.toString());
+            }.bind(this)
+        });
+    },
+
+    componentDidMount: function () {
+        this._loadUser();
+
     },
 
     render: function () {
@@ -43,8 +44,6 @@ var Dash = createReactClass({
                     <div className={'sixteen wide mobile eight wide tablet sixteen wide computer column'}>
                         <div className="sixteen wide column">
                             <div className="ui horizontal segment">
-                                <h2>Overview</h2>
-
                                 <div className="ui equal width left aligned padded grid stackable">
 
                                     <div className="row">
@@ -157,47 +156,6 @@ var SysAdminDashboard = createReactClass({
     getInitialState: function () {
         return {
             items: [],
-            Visitors_Graph: [{
-                name: 'Mission Grow 1',
-
-                data: [43934, 52503, 57177, 69658, 9703, 101993, 13713, 320357],
-                color: '#42AD4A'
-
-            }, {
-                name: 'Mission Grow 2',
-
-                data: [33934, 42503, 47177, 39658, 67031, 109931, 97133, 120175],
-                color: '#ad7a24'
-
-            }, {
-                name: 'Mission Grow 4',
-
-                data: [null, null, null, null, null, null, null, 14175, 34175],
-                color: '#ad2f21'
-
-            }, {
-                name: 'McKnight',
-                data: [12908, 5948, 8105, 11248, 8989, 11816, 18274, 18111],
-                color: '#b91c18'
-            }, {
-                name: 'KCD',
-                data: [33934, 82503, 47177, 99658, 77031, 109931, 107133, 134175],
-                color: '#aca1b9'
-            }, {
-                name: 'KCD 2',
-                data: [43934, 52503, 57177, 69658, 97031, 119931, 137133, 154175],
-                color: '#1077B9'
-            }
-            ],
-            Visitors_Graph1: [{
-                name: 'Village Based Advisors',
-                data: [43934, 52503, 57177, 69658, 97031, 119931, 137133, 154175],
-                color: '#AB3A8E'
-            }, {
-                name: 'Farmers',
-                data: [12908, 5948, 8105, 11248, 8989, 11816, 18274, 18111],
-                color: '#501E70'
-            }],
             messageResponses: {
                 message: '',
                 type: '',
@@ -209,46 +167,45 @@ var SysAdminDashboard = createReactClass({
 
 
     componentDidMount: function () {
-        //this._loadTransactions();
+        this._loadTenants();
     },
+    _loadTenants: function () {
+        this._startPageLoader();
+        $.ajax({
+            url: listTenantsURL,
+            method: 'GET',
+            dataType: 'json',
+            cache: false,
+            success: function (data) {
+                this.setState({items: data, messageResponses: {message: 'Tenants loaded', type: 'info', hidden: false}});
+                console.log(data);
+                this._stopPageLoader();
+            }.bind(this),
+            error: function (xhr, status, err) {
+                console.error(listTenantsURL, status, err.toString());
+            }.bind(this)
+        });
+
+    },
+    _startPageLoader: function () {
+        this.setState({ isLoading: true });
+    },
+
+    _stopPageLoader: function () {
+        this.setState({ isLoading: false });
+    },
+
 
     render: function () {
         return (
-            <div className={'ui fluid container'}>
+            <div id='fluidcontainer' className={'ui fluid container'}>
                 <div className="ui equal width grid">
                     <div className={'sixteen wide mobile eight wide tablet sixteen wide computer column'}>
                         <div className="sixteen wide column">
-                            <div className="ui horizontal segment">
-                                <h2>content begins here</h2>
-                                <div className="row">
-                                    <div className="ui equal width grid">
-                                        <div className="sixteen wide tablet eight wide computer column">
-                                            <div className="ui segments">
-                                                <div className="ui segment"><Charts chartId="Line_Graph"
-                                                                                    chartType="line"
-                                                                                    chartTitle="Farmers Reached Across Programs,2011-2019"
-                                                                                    yAxisLable="Farmers Reached"
-                                                                                    chartData={this.state.Visitors_Graph}/>
+                            <div className="ui bottom attached segment">
 
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="sixteen wide tablet eight wide computer column">
-                                            <div className="ui segments">
-                                                <div className="ui segment">
-                                                    <Charts chartId="Line_Graph1" chartType="line"
-                                                            chartTitle="Program Activities "
-                                                            yAxisLable="VBAs & Farmers"
-                                                            chartData={this.state.Visitors_Graph1}/>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div className="ui hidden divider"></div>
-                                </div>
-
-                                content ends here
+                                <TenantsTable
+                                    items={this.state.items}/>
 
                             </div>
                         </div>
@@ -272,17 +229,83 @@ var Dashboard = createReactClass({
             .dropdown();
     },
 
+
     render: function () {
         return (
-            <div>
+            <div id={'asd'} className={'asd'}>
                 <Dash/>
+                <div className="ui hidden divider"></div>
                 <SysAdminDashboard/>
+                <div className="ui hidden divider"></div>
+                <div className="ui hidden divider"></div>
                 <div className="ui hidden divider"></div>
             </div>
         );
     }
 });
+/*display tenants on the dashboard*/
+var TenantsTable = createReactClass({
+    render: function () {
+        var subjectItems = null;
+        var _this = this;
+        {
+            this.props.items && this.props.items.length > 0 && (
+                subjectItems = this.props.items.map(function (subjectItem, i) {
+                    // var boundEditClick = _this.props._handleEditClick.bind(null, subjectItem.id_number);
+                    // var boundDeleteClick = _this.props._handleDeleteClick.bind(null, subjectItem.id_number);
+                    return (
+                        <TenantRow key={subjectItem.id_number} index={i}
+                                   subjectItem={subjectItem}
+                        />
+                    )
+                }, this)
+            )
+        }
+        return (
+            <div className="row">
 
+
+                <div id="tblcontainer">
+                    <h2>Overview of Tenants</h2>
+                    {/*<h3 className="ui top attached header">VBAs Search Results</h3>*/}
+                    <div >
+                        <table className="ui unstackable table">
+                            <thead>
+                            <tr>
+                                <th>House Number</th>
+                                <th>ID Type</th>
+                                <th>ID Number</th>
+                                <th>Tenant Name</th>
+                                <th>Phone Number</th>
+                            </tr>
+                            </thead>
+                            <tbody>{subjectItems}</tbody>
+
+                        </table>
+                    </div>
+
+                </div>
+
+            </div>
+
+        )
+
+    }
+});
+var TenantRow = createReactClass({
+    render: function () {
+        return (
+            <tr>
+                <td>{this.props.subjectItem.house_name}</td>
+                <td>{this.props.subjectItem.id_type}</td>
+                <td>{this.props.subjectItem.id_number}</td>
+                <td>{this.props.subjectItem.first_name}&nbsp;{this.props.subjectItem.middle_name}&nbsp;{this.props.subjectItem.last_name}</td>
+                <td>{this.props.subjectItem.phone_no}</td>
+            </tr>
+
+        );
+    }
+})
 
 ReactDOM.render(<Dashboard/>, document.getElementById('appContent'));
 // render(<Dash/>,document.getElementById('appContent'));

@@ -9,7 +9,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "tenants")
 public class Tenants extends Model {
-    public static Finder<String, Tenants> find = new Finder<String, Tenants>(Tenants.class, "landlordie");
+
     @Id
     @Column(name = "tenant_id")
     private String tenant_id;
@@ -25,10 +25,13 @@ public class Tenants extends Model {
     private String last_name;
     @Column(name = "phone_no")
     private String phone_no;
+    @Column(name = "phone_no")
+    private String house_name;
     @ManyToOne
     @JoinColumn(name = "tenant_house_no", referencedColumnName = "house_no")
     @JsonBackReference
     private Houses house_no;
+    public static Finder<String, Tenants> find = new Finder<String, Tenants>(Tenants.class, "landlordie");
 
     public String getTenant_id() {
         return tenant_id;
@@ -92,6 +95,11 @@ public class Tenants extends Model {
 
     public void setHouse_no(Houses house_no) {
         this.house_no = house_no;
+    }
+
+    public String getHouse_name(){return house_no.getName();}
+    public void setHouse_name(String house_name){
+        this.house_name = house_name;
     }
 
 }

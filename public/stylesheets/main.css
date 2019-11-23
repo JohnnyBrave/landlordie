@@ -139,7 +139,7 @@ body {
 
 }
 #menuItems{
-    width: 240px;
+    width: 230px;
     height: 100%;
     position: fixed;
     background: #426B93;
@@ -183,7 +183,7 @@ body {
 }
 
 .sidebar.visible + .pusher {
-    width: calc(100% - 245px);
+    width: calc(100% - 230px);
 }
 
 /*the dashboard elements*/

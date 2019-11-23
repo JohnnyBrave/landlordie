@@ -9,7 +9,7 @@ function Unauthorized() {
                     <h2 id="fipsimage" className="ui header">
 
 
-                        <img className="ui image" src="/assets/images/fips_logo.png"/>
+                        <img className="ui image" src="/assets/images/apartments_background.png"/>
 
                     </h2>
 

@@ -12,7 +12,7 @@ import java.util.List;
 @Entity
 @Table(name = "user_role")
 public class UserRoles extends Model implements Role {
-    public static Finder<UserRolePK, UserRoles> find = new Finder<UserRolePK, UserRoles>(UserRoles.class, "fips_db");
+    public static Finder<UserRolePK, UserRoles> find = new Finder<UserRolePK, UserRoles>(UserRoles.class, "landlordie");
 
     //    @Column(name = "role_id")
 //    private UserRole role_id;

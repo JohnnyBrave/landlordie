@@ -143,7 +143,7 @@ var Menu = createReactClass({
                                 Garbage Collection<i className="dollar sign icon"></i>
                             </a>
                             <a className="item" href="biodata_mnc_rh.php">
-                                Rent Deposit Refunds <i className="dollar sign icon"></i>
+                                Deposit Refunds <i className="dollar sign icon"></i>
                             </a>
 
                         </div>
@@ -182,15 +182,8 @@ var Menu = createReactClass({
                 </a>
                 <a id="menuLabel" className="item" href={"/fips/reports"}>
                     <i className="book icon"/>
-                    Reports
+                    Receipts
                 </a>
-
-
-                <a id="menuLabel" className="item" href={"/landlordie"}>
-                    <i id="menuLabel" className="sign out icon"/>
-                    Log Out
-                </a>
-
 
             </div>
         );

@@ -1,21 +1,18 @@
 var usernameURL = '/list/currentuser';
-var facilityURL = '/list/departments';
-
-// var idTypeURL = '/sentinel/list/idType';
-var searchURL = "/executeSearch";
-var networksURL = '/list/networks';
-var departmentsURL = '/list/departments';
-var listVBAsURL = '/list/vbas';
-var editVBAsURL = '/editVBAs';
-var saveVbaURL  = '/saveVBAs';
-var updateVbaURL = '/updateVBAs';
+var searchURL = '/executeSearch';
+var housesURL = '/list/houses';
+var listTenantsURL = '/list/tenants';
+var editTenantsURL = '/editTenants';
+var saveTenantURL  = '/saveTenants';
+var updateTenantURL = '/updateTenants';
+var list
 
 var ManageVbas = createReactClass({
 
     getInitialState: function () {
         return {
             items: [],
-            selectedVba: null,
+            selectedTenant: null,
             task: "",
             messageResponses: {
                 message: '',
@@ -26,9 +23,9 @@ var ManageVbas = createReactClass({
         }
 
     },
-    _loadVbas: function () {
+    _loadTenants: function () {
         $.ajax({
-            url: listVBAsURL,
+            url: listTenantsURL,
             method: 'GET',
             dataType: 'json',
             cache: false,
@@ -36,7 +33,7 @@ var ManageVbas = createReactClass({
                 this.setState({items: data, messageResponses: {message: 'VBAs loaded', type: 'info', hidden: false}});
             }.bind(this),
             error: function (xhr, status, err) {
-                console.error(listVBAsURL, status, err.toString());
+                console.error(listTenantsURL, status, err.toString());
             }.bind(this)
         });
 
@@ -44,10 +41,10 @@ var ManageVbas = createReactClass({
     componentDidMount: function () {
         $('.ui.dropdown')
             .dropdown();
-        this._loadVbas();
+        this._loadTenants();
     },
 
-    showVbaEditModal: function () {
+    showTenantEditModal: function () {
         this.setState({showModal: true});
         $('#modal')
             .modal('setting', 'closable', false)
@@ -63,16 +60,16 @@ var ManageVbas = createReactClass({
 
     _handleEditClick: function (vbacode) {
         $.ajax({
-            url: editVBAsURL + "?vbacode=" + vbacode,
+            url: editTenantsURL + "?vbacode=" + vbacode,
             method: 'GET',
             dataType: 'json',
             cache: false,
             success: function (data) {
-                this.setState({selectedVba: data, task: "Edit "});
-                this.showVbaEditModal();
+                this.setState({selectedTenant: data, task: "Edit "});
+                this.showTenantEditModal();
             }.bind(this),
             error: function (xhr, status, err) {
-                console.error(editVBAsURL, status, err.toString());
+                console.error(editTenantsURL, status, err.toString());
             }.bind(this)
         });
 
@@ -81,20 +78,20 @@ var ManageVbas = createReactClass({
     * Handler for text changes on Modal input components
     */
     _textChanged: function (event) {
-        var values = this.state.selectedVba;
+        var values = this.state.selectedTenant;
         values['' + event.target.name + ''] = event.target.value;
-        this.setState({selectedVba: values});
+        this.setState({selectedTenant: values});
         console.log("the values are" + JSON.stringify(values))
     },
     _handleSaveClick: function () {
         var submitUrl;
         var myTask = this.state.task;
         if (myTask == 'Add ') {
-            submitUrl = saveVbaURL;
+            submitUrl = saveTenantURL;
         } else if (myTask == 'Edit ') {
-            submitUrl = updateVbaURL;
+            submitUrl = updateTenantURL;
         }
-        var params = JSON.stringify(this.state.selectedVba);
+        var params = JSON.stringify(this.state.selectedTenant);
         $.ajax({
             async: true,
             url: submitUrl,
@@ -108,7 +105,7 @@ var ManageVbas = createReactClass({
             cache: false,
             success: function (data) {
                 this.setState({
-                        selectedVba: null,
+                        selectedTenant: null,
                         task: "",
                         messageResponses: {message: data.message, type: data.type, hidden: false},
                     },
@@ -116,7 +113,7 @@ var ManageVbas = createReactClass({
                         //close the modal
                         this._handleCloseModal();
                         //then reload the list of VBAs
-                        this._loadVbas();
+                        this._loadTenants();
                     });
 
 
@@ -128,22 +125,22 @@ var ManageVbas = createReactClass({
     },
 
     _handleCancelClick: function () {
-        this.setState({selectedVba: null, task: '', messageResponses: {message: '', type: 'info', hidden: false}});
+        this.setState({selectedTenant: null, task: '', messageResponses: {message: '', type: 'info', hidden: false}});
         this._handleCloseModal();
 
     },
 
     _handleDeleteClick: function (vbacode) {
         $.ajax({
-            url: editVBAsURL + "?userId=" + userId,
+            url: editTenantsURL + "?userId=" + userId,
             method: 'GET',
             dataType: 'json',
             cache: false,
             success: function (data) {
-                this.setState({selectedVba: data, task: "Edit "});
+                this.setState({selectedTenant: data, task: "Edit "});
             }.bind(this),
             error: function (xhr, status, err) {
-                console.error(editVBAsURL, status, err.toString());
+                console.error(editTenantsURL, status, err.toString());
             }.bind(this)
         });
 
@@ -151,14 +148,14 @@ var ManageVbas = createReactClass({
 
     render: function () {
 
-        var vbaForm = "";
+        var tenantForm = "";
         {
 
-            this.state.selectedVba && (
-                vbaForm = <Modal
+            this.state.selectedTenant && (
+                tenantForm = <Modal
                     task={this.state.task}
                     fullForm={true}
-                    vba={this.state.selectedVba}
+                    vba={this.state.selectedTenant}
                     textChanged={this._textChanged}
                     saveVba={this._handleSaveClick}
                     cancelVba={this._handleCloseModal}/>
@@ -175,18 +172,18 @@ var ManageVbas = createReactClass({
                             <div className="ui horizontal segment">
 
                                 <div>
-                                    {vbaForm}
+                                    {tenantForm}
                                 </div>
                                 <div className="row">
                                     <div className="ui grid attached top header">
                                         <div className="two column row">
                                             <div className="ui hidden divider"></div>
                                             <div className="left floated left aligned column">
-                                                <h3>Manage VBAs</h3>
+                                                <h3>Manage Tenants</h3>
                                             </div>
                                             <div className="right floated right aligned column">
                                                 <button className="ui primary button" type="button"
-                                                        onClick={this.showVbaEditModal}>
+                                                        onClick={this.showTenantEditModal}>
                                                     Add
                                                 </button>
 
@@ -194,7 +191,7 @@ var ManageVbas = createReactClass({
                                         </div>
                                     </div>
                                 </div>
-                                <VbasTable
+                                <TenantsTable
                                     items={this.state.items}
                                     _handleEditClick={this._handleEditClick}
                                     _handleDeleteClick={this._handleDeleteClick}/>
@@ -207,19 +204,19 @@ var ManageVbas = createReactClass({
         )
     }
 });
-var VbasTable = createReactClass({
+var TenantsTable = createReactClass({
 
     render: function () {
-        var vbaItems = null;
+        var tenantItems = null;
         var _this = this;
         {
             this.props.items && this.props.items.length > 0 && (
-                vbaItems = this.props.items.map(function (vbaItem, i) {
-                    var boundEditClick = _this.props._handleEditClick.bind(null, vbaItem.vbacode);
-                    var boundDeleteClick = _this.props._handleDeleteClick.bind(null, vbaItem.vbacode);
+                tenantItems = this.props.items.map(function (tenantItem, i) {
+                    var boundEditClick = _this.props._handleEditClick.bind(null, tenantItem.vbacode);
+                    var boundDeleteClick = _this.props._handleDeleteClick.bind(null, tenantItem.vbacode);
                     return (
-                        <VbaRow key={vbaItem.vbacode} index={i}
-                                vbaItem={vbaItem}
+                        <VbaRow key={tenantItem.vbacode} index={i}
+                                tenantItem={tenantItem}
                                 _handleDeleteClick={boundDeleteClick}
                                 _handleEditClick={boundEditClick}/>
                     )
@@ -240,7 +237,7 @@ var VbasTable = createReactClass({
                     </tr>
                     </thead>
                     <tbody>
-                    {vbaItems}
+                    {tenantItems}
                     </tbody>
 
                 </table>
@@ -256,10 +253,10 @@ var VbaRow = createReactClass({
     render: function () {
         return (
             <tr>
-                <td>{this.props.vbaItem.vbacode}</td>
-                <td>{this.props.vbaItem.vba_name}</td>
-                <td>{this.props.vbaItem.gender}</td>
-                <td>{this.props.vbaItem.phone_no}</td>
+                <td>{this.props.tenantItem.vbacode}</td>
+                <td>{this.props.tenantItem.vba_name}</td>
+                <td>{this.props.tenantItem.gender}</td>
+                <td>{this.props.tenantItem.phone_no}</td>
                 <td>
                     <button type="button" className="ui icon green submit button" onClick={this.props._handleEditClick}>
                         <i className="edit icon"/>

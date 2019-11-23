@@ -105,47 +105,40 @@ var TopMenuBar = createReactClass({
     render: function () {
         return (
 
-            <div  className="ui top fixed inverted icon menu main asd" id="top-menu">
-
-
-                {/*<a id="menuToggle" className="item">*/}
-                    {/*<i className="sidebar icon"/>*/}
-                {/*</a>*/}
-                <a className="item openbtn">
+            <div id={'topmenubar'} className="ui top fixed menu asd borderless">
+                <a id="sidebarLabel" className="item openbtn">
                     <i className="icon content"></i>
                 </a>
-                {/*<div className={'item'}>*/}
-                {/*<h2>MENU</h2>*/}
-                {/*</div>*/}
+                {/*<a id="sidebarLabel" className="item">FIPS-AFRICA DATA MANAGEMENT PORTAL*/}
+                {/*</a>*/}
 
-                {/*<div id={'welcomemsg'} className={'item'}>*/}
-                {/*<div className="ui orange hidden info massive message">*/}
-                {/*<div className="header">*/}
-                {/*Hello,&nbsp; {this.state.userData.first_name}&nbsp;{this.state.userData.last_name}&nbsp;<i className="smile icon"></i>*/}
-                {/*</div>*/}
-                {/*<p>Click on <i className="sidebar icon"/> at the top left corner to access features.</p>*/}
-                {/*</div>*/}
-                {/*</div>*/}
+                <div className="right menu">
 
+                    <div className={'item'}>
+                        <a className="ui tag blue label">
+                            <img className="ui right spaced avatar image" src="/assets/images/tom.jpg"/>
+                            {this.state.userData.first_name}&nbsp;{this.state.userData.last_name}
+                        </a>
 
-                <div id={'topmenulabel'} className="item">
-                    <div className="ui avatar image">
-                        <img src="/assets/images/tom.jpg"/>
                     </div>
-                    <div className="content">
-                        <div className="header">
-                            <h3>{this.state.userData.first_name}&nbsp;{this.state.userData.last_name}</h3>
-                        </div>
+                    <div className={'item'}>
+                        <a>
+                            <div  className="ui blue animated button" tabIndex="0" onClick={this._logout}>
+                                <div className="visible content">Sign Out</div>
+                                <div className="hidden content">
+                                    <i id="menuLabel" className="sign out icon"/>
+                                </div>
+                            </div>
+                        </a>
                     </div>
-                    <div>&nbsp;</div>
-                    <div  className="ui blue animated button" tabIndex="0" onClick={this._logout}>
-                        <div className="visible content">Sign Out</div>
-                        <div className="hidden content">
-                            <i id="menuLabel" className="sign out icon"/>
-                        </div>
-                    </div>
+
                 </div>
+
+
+
+
             </div>
+
 
         );
     }

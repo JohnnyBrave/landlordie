@@ -4,6 +4,7 @@
 
 # Home page
 GET         /oasis                      controllers.LoginController.start
+GET         /LoggedOut                      controllers.LoginController.start
 #here the login credentials are submitted via post method
 
 POST        /login                      controllers.LoginController.login
@@ -12,7 +13,7 @@ GET         /search                     controllers.SearchController.landing
 
 #Routes to the TenantsController
 GET         /manage/tenantinfo          controllers.TenantsController.tenants
-GET         /manage/edit_tenants        controllers.TenantsController.editTenant(id_number: String)
+GET         /manage/editTenants        controllers.TenantsController.editTenant(id_number: String)
 
 
 GET         /unauthorised               controllers.LoginController.redirectUnauthorized
@@ -20,7 +21,7 @@ GET         /unauthorised               controllers.LoginController.redirectUnau
 #lists
 GET         /list/currentuser           controllers.ListManagerController.currentUser()
 GET         /list/departments           controllers.ListManagerController.listDepartments()
-GET         /list/tenants               controllers.ListManagerController.listTenants
+GET         /list/tenants               controllers.ListManagerController.listTenants()
 
 # Map static resources from the /public folder to the /assets URL path
 GET         /assets/*file               controllers.Assets.at(path="/public", file)

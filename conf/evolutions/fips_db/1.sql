@@ -22,6 +22,13 @@ create table houses (
   constraint pk_houses primary key (house_no)
 );
 
+create table networks (
+  network_id                    varchar(255) not null,
+  network_name                  varchar(255),
+  network_department            varchar(255),
+  constraint pk_networks primary key (network_id)
+);
+
 create table permission (
   id                            integer auto_increment not null,
   module_name                   varchar(255),
@@ -123,6 +130,8 @@ drop table if exists department_member;
 drop table if exists departments;
 
 drop table if exists houses;
+
+drop table if exists networks;
 
 drop table if exists permission;
 

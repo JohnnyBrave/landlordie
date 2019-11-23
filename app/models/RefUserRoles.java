@@ -9,7 +9,7 @@ import java.util.List;
 @Entity
 @Table(name = "user_ref_role")
 public class RefUserRoles extends Model {
-    public static Finder<String, RefUserRoles> find = new Finder<>(RefUserRoles.class, "fips_db");
+    public static Finder<String, RefUserRoles> find = new Finder<>(RefUserRoles.class, "landlordie");
     @Id
     @Column(name = "role_code")
     private String role_code;

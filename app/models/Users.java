@@ -24,7 +24,7 @@ import java.util.Set;
 //        }
 //)
 public class Users extends Model implements Subject {
-    public static Finder<String, Users> find = new Finder<String, Users>(Users.class, "fips_db");
+    public static Finder<String, Users> find = new Finder<String, Users>(Users.class, "landlordie");
     @Id
     @Column(name = "email")
     private String email;

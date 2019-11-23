@@ -9,7 +9,7 @@ import java.util.List;
 @Entity
 @Table(name = "permission")
 public class Permission extends Model implements be.objectify.deadbolt.java.models.Permission {
-    public static Finder<String, Permission> find = new Finder<String, Permission>(Permission.class, "fips_db");
+    public static Finder<String, Permission> find = new Finder<String, Permission>(Permission.class, "landlordie");
     @Id
     @Column(name = "id")
     private Integer id;

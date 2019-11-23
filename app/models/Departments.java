@@ -16,7 +16,7 @@ import javax.persistence.Table;
 //})
 
 public class Departments extends Model {
-    public static Finder<String, Departments> find = new Finder<String, Departments>(Departments.class, "fips_db");
+    public static Finder<String, Departments> find = new Finder<String, Departments>(Departments.class, "landlordie");
     @Id
     @Column(name = "department_id")
     private String department_id;
