@@ -40,6 +40,7 @@ var Dash = createReactClass({
                 <div className="ui hidden divider"></div>
                 <div className="ui hidden divider"></div>
                 <div className="ui hidden divider"></div>
+                <div className="ui hidden divider"></div>
                 <div className="ui equal width grid">
                     <div className={'sixteen wide mobile eight wide tablet sixteen wide computer column'}>
                         <div className="sixteen wide column">
@@ -236,7 +237,6 @@ var Dashboard = createReactClass({
                 <Dash/>
                 <div className="ui hidden divider"></div>
                 <SysAdminDashboard/>
-                <div className="ui hidden divider"></div>
                 <div className="ui hidden divider"></div>
                 <div className="ui hidden divider"></div>
             </div>

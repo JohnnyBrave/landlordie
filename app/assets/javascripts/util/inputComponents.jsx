@@ -1,8 +1,8 @@
+"use strict";
+
 /**
  * Date Formating functions
  */
-
-
 //date formatter helper
 var allAvailableOptions = {
     weekday: "long", year: "numeric", month: "short",
@@ -15,14 +15,17 @@ var monthYearOptions = {
 };
 
 //
-function formatDate(dateValue, options = monthYearOptions) {
-    return new Date(dateValue).toLocaleTimeString("en-us", options)
+function formatDate(dateValue) {
+    var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : monthYearOptions;
+
+    return new Date(dateValue).toLocaleTimeString("en-us", options);
 }
 
 //default param is all options
-function formatDateMonthDay(dateValue, options = monthYearOptions) {
-    return new Date(dateValue).toLocaleTimeString("en-us", options)
+function formatDateMonthDay(dateValue) {
+    var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : monthYearOptions;
 
+    return new Date(dateValue).toLocaleTimeString("en-us", options);
 }
 
 /**
@@ -33,20 +36,20 @@ function formatDateMonthDay(dateValue, options = monthYearOptions) {
  * selectUrl - url that returns json data
  * name - distinct name for your field
  * selectedValue - field holding the selected value in your jsx file
- * _valueChanged - function to be called when selected option changes
+ * valueChanged - function to be called when selected option changes
  */
 
-
 var SingleSelectWithOptions = createReactClass({
+    displayName: "SingleSelectWithOptions",
 
-    render: function () {
+
+    render: function render() {
         var options = [];
         $.each(this.props.data, function (index, item) {
             options.push(
                 {value: item.value, label: item.label}
             );
         });
-
         return (
             <Select
                 name={this.props.name}
@@ -64,30 +67,30 @@ var SingleSelectWithOptions = createReactClass({
 });
 
 var SingleSelect = createReactClass({
+    displayName: "SingleSelect",
 
-    getInitialState: function () {
+
+    getInitialState: function getInitialState() {
         return {
             options: []
-        }
+        };
     },
-    componentDidMount: function () {
+    componentDidMount: function componentDidMount() {
         // get your data
         $.ajax({
             url: this.props.selectUrl,
             dataType: 'json',
             cache: false,
             success: this.successHandler
-        })
+        });
     },
 
-    successHandler: function (data) {
+    successHandler: function successHandler(data) {
         // assuming data is an array of {name: value}
         var self = this,
             options = [];
         $.each(data, function (index, item) {
-            options.push(
-                {value: item.value, label: item.label}
-            );
+            options.push({ value: item.value, label: item.label });
         });
 
         this.setState({
@@ -95,16 +98,82 @@ var SingleSelect = createReactClass({
         });
     },
 
+    render: function render() {
 
-    render: function () {
         return (
             <Select
-                name={this.props.name}
-                clearable={false}
-                placeholder={this.props.placeholder}
-                value={this.selectedValue}
-                onChange={this.props._valueChanged}
-                options={this.state.options}
+                name= {this.props.name}
+                ref= {this.props.name}
+                required= {true}
+                clearable= {false}
+                noResultsText= {this.props.noResultsText}
+                placeholder= {this.props.placeholder}
+                value= {this.props.selectedValue}
+                options= {this.state.options}
+                onChange= {this.props.valueChanged}
+            />
+
+
+        )
+    }
+});
+
+var SingleSelectWithRefresh = createReactClass({
+    displayName: "SingleSelectWithRefresh",
+
+
+    getInitialState: function getInitialState() {
+        return {
+            options: []
+        };
+    },
+
+    _getOptions: function _getOptions() {
+        // get your data
+        $.ajax({
+            url: this.props.selectUrl,
+            dataType: 'json',
+            cache: false,
+            success: this.successHandler
+        });
+    },
+
+    componentDidMount: function componentDidMount() {
+        this._getOptions();
+    },
+
+    componentDidUpdate: function componentDidUpdate(prevProps, prevState, snapshot) {
+        if (this.props.refresh && this.props._stopRefresh !== undefined) {
+            // if refresh is true, refresh data
+            this._getOptions();
+            this.props._stopRefresh();
+            // this.setState({requestsSent: this.state.requestsSent += 1});  // increment to stop infinte looping (fail safe)
+        }
+    },
+
+
+    successHandler: function successHandler(data) {
+        // assuming data is an array of {name: value}
+        var myOptions = [];
+        $.each(data, function (index, item) {
+            myOptions.push({ value: item.value, label: item.label });
+        });
+        this.setState({ options: myOptions });
+    },
+
+    render: function render() {
+        return (
+            <Select
+                name= {this.props.name}
+                ref= {this.props.name}
+                delimiter={","}
+                clearable= {false}
+                noResultsText= {this.props.noResultsText}
+                placeholder= {this.props.placeholder}
+                multi= {false}
+                value= {this.props.selectedValue}
+                options= {this.state.options}
+                onChange= {this.props.valueChanged}
             />
 
 
@@ -113,30 +182,30 @@ var SingleSelect = createReactClass({
 });
 
 var AsyncSingleSelect = createReactClass({
+    displayName: "AsyncSingleSelect",
 
-    getInitialState: function () {
+
+    getInitialState: function getInitialState() {
         return {
             options: []
-        }
+        };
     },
-    componentDidMount: function () {
+    componentDidMount: function componentDidMount() {
         // get your data
         $.ajax({
             url: this.props.selectUrl,
             dataType: 'json',
             cache: false,
             success: this.successHandler
-        })
+        });
     },
 
-    successHandler: function (data) {
+    successHandler: function successHandler(data) {
         // assuming data is an array of {name: value}
         var self = this,
             options = [];
         $.each(data, function (index, item) {
-            options.push(
-                {value: item.value, label: item.label}
-            );
+            options.push({ value: item.value, label: item.label });
         });
 
         this.setState({
@@ -144,7 +213,7 @@ var AsyncSingleSelect = createReactClass({
         });
     },
 
-    getOptions: function (input, callback) {
+    getOptions: function getOptions(input, callback) {
         var _this = this;
         setTimeout(function () {
             callback(null, {
@@ -156,8 +225,7 @@ var AsyncSingleSelect = createReactClass({
         }, 500);
     },
 
-
-    render: function () {
+    render: function render() {
         return (
             <Select.Async
                 name={this.props.name}
@@ -172,21 +240,82 @@ var AsyncSingleSelect = createReactClass({
             />
 
         )
+
     }
 });
 
-
 var MultiSelectWithOptions = createReactClass({
-    render: function () {
+    displayName: "MultiSelectWithOptions",
+
+    render: function render() {
         ////console.log('@@@ inside the multiselect with options');
-        var options = [];
-        $.each(this.props.data, function (index, item) {
-            ////console.log('@@@label '+ item.label);
-            ////console.log('@@@value '+ item.value);
-            options.push(
-                {value: item.value, label: item.label}
-            );
+        // var options = [];
+        // $.each(this.props.options, function (index, item) {
+        //     ////console.log('@@@label '+ item.label);
+        //     ////console.log('@@@value '+ item.value);
+        //     options.push(
+        //         {value: item.value, label: item.label}
+        //     );
+        // });
+
+        <Select
+            name={this.props.name}
+            ref={this.props.name}
+            clearable={false}
+            delimiter={","}
+            noResultsText={this.props.noResultsText}
+            placeholder={this.props.placeholder}
+            multi={true}
+            value={this.props.selectedValue}
+            options={options}
+            onChange={this.props._valueChanged}
+        />
+    }
+});
+
+/**
+ *Multielect component
+ * Used when you expect user to make/ pick multiple choices from a list
+ *
+ * Pass parameters :
+ * selectUrl - url that returns json data
+ * name - distinct name for your field
+ * selectedValue - field holding the selected value in your jsx file
+ * valueChanged - function to be called when selected option changes
+ */
+
+var MultiSelect = createReactClass({
+    displayName: "MultiSelect",
+
+
+    getInitialState: function getInitialState() {
+        return {
+            options: []
+        };
+    },
+
+    componentDidMount: function componentDidMount() {
+
+        // get your data
+        $.ajax({
+            url: this.props.selectUrl,
+            dataType: 'json',
+            cache: false,
+            success: this.successHandler
         });
+    },
+
+    successHandler: function successHandler(data) {
+        // assuming data is an array of {name: value}
+        var self = this;
+        $.each(data, function (index, item) {
+            self.state.options.push({ value: item.value, label: item.label });
+        });
+
+        // this.forceUpdate();
+    },
+
+    render: function render() {
 
         return (
             <Select
@@ -198,57 +327,57 @@ var MultiSelectWithOptions = createReactClass({
                 placeholder={this.props.placeholder}
                 multi={true}
                 value={this.props.selectedValue}
-                options={options}
+                options={this.state.options}
                 onChange={this.props._valueChanged}
             />
         )
     }
 });
 
+var MultiSelectWithRefresh = createReactClass({
+    displayName: "MultiSelectWithRefresh",
 
-/**
- *Multiselect component
- * Used when you expect user to make/ pick multiple choices from a list
- *
- * Pass parameters :
- * selectUrl - url that returns json data
- * name - distinct name for your field
- * selectedValue - field holding the selected value in your jsx file
- * _valueChanged - function to be called when selected option changes
- */
 
-var MultiSelect = createReactClass({
-
-    getInitialState: function () {
+    getInitialState: function getInitialState() {
         return {
             options: []
-        }
+        };
     },
 
-    componentDidMount: function () {
-
+    _getOptions: function _getOptions() {
         // get your data
         $.ajax({
             url: this.props.selectUrl,
             dataType: 'json',
             cache: false,
             success: this.successHandler
-        })
-    },
-
-    successHandler: function (data) {
-        // assuming data is an array of {name: value}
-        var self = this;
-        $.each(data, function (index, item) {
-            self.state.options.push(
-                {value: item.value, label: item.label}
-            );
         });
-
-        // this.forceUpdate();
     },
 
-    render: function () {
+    componentDidMount: function componentDidMount() {
+        this._getOptions();
+    },
+
+    componentDidUpdate: function componentDidUpdate(prevProps, prevState, snapshot) {
+        if (this.props.refresh && this.props._stopRefresh !== undefined) {
+            // if refresh is true, refresh data
+            this._getOptions();
+            this.props._stopRefresh();
+            // this.setState({requestsSent: this.state.requestsSent += 1});  // increment to stop infinte looping (fail safe)
+        }
+    },
+
+
+    successHandler: function successHandler(data) {
+        // assuming data is an array of {name: value}
+        var myOptions = [];
+        $.each(data, function (index, item) {
+            myOptions.push({ value: item.value, label: item.label });
+        });
+        this.setState({ options: myOptions });
+    },
+
+    render: function render() {
 
         return (
             <Select
@@ -290,7 +419,7 @@ var Input = createReactClass({
         if (this.props.type == 'checkbox') {
             return element.nextSibling.textContent = validationText
         } else if (this.props.type == 'dateOnly' || this.props.type == 'textarea' || this.props.type == 'text' || this.props.type == 'number'
-            || this.props.type == 'email' || this.props.type == 'password' || this.props.type == 'file') {
+            || this.props.type == 'email' || this.props.type == 'password' || this.props.type == 'file' || this.props.type == 'readonly' || this.props.type == 'month') {
             return element.nextSibling.textContent = validationText
         }
     },
@@ -302,7 +431,8 @@ var Input = createReactClass({
             input.classList.add('error'); //add class error
             this.getMessageDisplayElement(input, this.props.messageRequired); // show error message
             return false;
-        } else {
+        }
+        else {
             input.classList.remove('error');
             this.getMessageDisplayElement(input, "");
         }
@@ -313,7 +443,8 @@ var Input = createReactClass({
                 input.classList.add('error');
                 input.nextSibling.textContent = this.props.messageEmail;
                 return false;
-            } else {
+            }
+            else {
                 input.classList.remove('error');
                 input.nextSibling.textContent = "";
             }
@@ -369,10 +500,16 @@ var Input = createReactClass({
             this.props.onComponentMounted(this); //register this input in the form
         }
         var _this = this;
+        // $("#" + this.props.id).calendar({
+        //     type: 'date',
+        //     onChange: function (date) {
+        //         _this.props.onChange(date);
+        //     }
+        // });
         $("#" + this.props.id).calendar({
-            type: 'date',
-            onChange: function (date) {
-                _this.props.onChange(date);
+            type: 'month',
+            onChange: function (month) {
+                _this.props.onChange(month);
             }
         });
     },
@@ -388,7 +525,8 @@ var Input = createReactClass({
                           required={this.props.isrequired}
                           onChange={this.handleChange} onBlur={this.handleBlur}/>
 
-        } else if (this.props.type == 'dateOnly') {
+        }
+        else if (this.props.type == 'dateOnly') {
             inputField = (
                 <div className="datePicker ui calendar" id={this.props.id}>
                     <div className="ui input left icon">
@@ -404,8 +542,29 @@ var Input = createReactClass({
                                onBlur={this.props.handleBlur}/>
                     </div>
                 </div>
+
             )
-        } else if (this.props.type == 'file') {
+        }
+        else if (this.props.type == 'month') {
+            inputField = (
+                <div className="datePicker ui calendar" id={this.props.id}>
+                    <div className="ui input left icon">
+                        <i className="calendar icon"/>
+                        <input id={this.props.id} type={this.props.type}
+                               value={this.props.value}
+                               ref={this.props.name}
+                               name={this.props.name}
+                               autoFocus={this.props.autoFocus}
+                               className='datePickerInput'
+                               required={this.props.isrequired}
+                               onChange={this.props.onChange}
+                               onBlur={this.props.handleBlur}/>
+                    </div>
+                </div>
+
+            )
+        }
+        else if (this.props.type == 'file') {
             //support for accepted types
             inputField = (
                 <div className="ui fluid left action input">
@@ -422,7 +581,8 @@ var Input = createReactClass({
                            onBlur={this.handleBlur}/>
                 </div>
             )
-        } else if (this.props.type == 'password') {
+        }
+        else if (this.props.type == 'password') {
             //support for accepted types
             inputField = (
                 <div className="ui left icon input">
@@ -434,7 +594,8 @@ var Input = createReactClass({
                 </div>
             )
 
-        } else if (this.props.type == 'email') {
+        }
+        else if (this.props.type == 'email') {
             //support for accepted types
             inputField =
                 <div className="ui left icon input">
@@ -443,7 +604,18 @@ var Input = createReactClass({
                            name={this.props.name} onBlur={this.handleBlur}
                            required={this.props.isrequired} onChange={this.handleChange} accept={this.props.accept}/>
                 </div>
-        } else {
+        }
+        else if (this.props.type == 'readonly') {
+            //support for accepted types
+            inputField =
+                <div className="ui left icon input">
+                    <i className="user icon"/>
+                    <input id={this.props.id} readonly="" type={this.props.type} value={this.props.value} ref={this.props.name}
+                           name={this.props.name} onBlur={this.handleBlur}
+                           required={this.props.isrequired} onChange={this.handleChange} accept={this.props.accept}/>
+                </div>
+        }
+        else {
             inputField =
                 <input id={this.props.id} type={this.props.type} value={this.props.value} ref={this.props.name}
                        name={this.props.name}
@@ -452,6 +624,7 @@ var Input = createReactClass({
                        placeholder={this.props.placeholder}
                        onBlur={this.handleBlur}/>
         }
+
         return (
             <div className="field">
                 <label htmlFor={this.props.htmlFor}>{this.props.label}</label>
@@ -459,22 +632,5 @@ var Input = createReactClass({
                 <span className="error"/>
             </div>
         );
-    }
-});
-
-
-/**
- * Page Loader component
- *
- */
-
-var Loader = createReactClass({
-    render: function () {
-
-        return (
-            <div id='loader' className="ui active dimmer">
-                <div className="ui loader"></div>
-            </div>
-        )
     }
 });

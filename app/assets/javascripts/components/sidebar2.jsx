@@ -164,6 +164,31 @@ var Menu = createReactClass({
                         {/*</div>*/}
                     </div>
 
+
+                    <div id={'sidebarLabel'} className="ui simple inline  dropdown item displaynone">
+                        <i className="icon demo-icon bar chart icon-bar chart"></i>
+                        <div className="menu">
+                            <div className="header">
+                                Dashboard
+                            </div>
+                            <div className="ui divider"></div>
+                            <a className="item" href="/dashboard">Dashboard
+                            </a>
+                        </div>
+                    </div>
+                    <div id={'sidebarLabel'} className="ui simple dropdown item displaynone">
+                        <z>Search</z>
+                        <i className="icon demo-icon search icon-search"></i>
+                        <div className="menu">
+                            <div className="header">
+                                Search
+                            </div>
+                            <div className="ui divider"></div>
+                            <a className="item" href="/search">Search
+                            </a>
+                        </div>
+                    </div>
+
                 </div>
 
             </div>

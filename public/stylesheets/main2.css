@@ -40,7 +40,8 @@
 #asdsidebar{
     -webkit-transition-duration: 0.1s; overflow: visible !important;
     background: #426B93;
-    overflow-x:scroll!important;
+    overflow-y:scroll!important;
+    overflow-x:hidden!important;
 
 }
 #asdimg2{
@@ -67,18 +68,7 @@
     padding-right: 260px;
 
 }
-    /*position: fixed !important;*/
 
-    /*left: 0;*/
-    /*top: 0;*/
-
-
-/*highcharts*/
-/*.highcharts-container {*/
-/*width:100% !important;*/
-/*height:auto !important;*/
-/*}*/
-/*welcome message*/
 #welcomemsg{
     position: fixed;
     left: 50%;
@@ -128,7 +118,7 @@
     width: 100% !important;
     height: 100% !important;
 }
-#fluidcontainer{
+.fluidcontainer{
     height: 100%!important;
 }
 #mobilecontainer{
