@@ -109,9 +109,9 @@ var Menu = createReactClass({
                             <i  className="dropdown icon"></i> <i className="users icon"/>Manage Tenants
                         </div>
                         <div className="content">
-                            <a id="sidebarLabel2" className="item" href="/tenants">Tenant Information<i className="info icon"></i>
+                            <a id="sidebarLabel2" className="item" href="/managetenants?activity=tenantinfo">Tenant Information<i className="info icon"></i>
                             </a>
-                            <a id="sidebarLabel2" className="item" href="/#">Lease Agreements<i className="file outline icon"></i>
+                            <a id="sidebarLabel2" className="item" href="/managetenants?activity=leaseagreements">Lease Agreements<i className="file outline icon"></i>
                             </a>
                             {/*<a id="sidebarLabel2" className="item" href="/maps">Agro-dealers<i className="building icon"></i>*/}
                             {/*</a>*/}
@@ -164,30 +164,6 @@ var Menu = createReactClass({
                         {/*</div>*/}
                     </div>
 
-
-                    <div id={'sidebarLabel'} className="ui simple inline  dropdown item displaynone">
-                        <i className="icon demo-icon bar chart icon-bar chart"></i>
-                        <div className="menu">
-                            <div className="header">
-                                Dashboard
-                            </div>
-                            <div className="ui divider"></div>
-                            <a className="item" href="/dashboard">Dashboard
-                            </a>
-                        </div>
-                    </div>
-                    <div id={'sidebarLabel'} className="ui simple dropdown item displaynone">
-                        <z>Search</z>
-                        <i className="icon demo-icon search icon-search"></i>
-                        <div className="menu">
-                            <div className="header">
-                                Search
-                            </div>
-                            <div className="ui divider"></div>
-                            <a className="item" href="/search">Search
-                            </a>
-                        </div>
-                    </div>
 
                 </div>
 

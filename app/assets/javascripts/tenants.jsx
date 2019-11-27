@@ -1,6 +1,5 @@
-var listVBAsURL = '/list/tenants';
-var editTenantsURL = '/manage/editTenants';
-var listTenantsURL = '/list/tenants'
+var editTenantsURL = '/editTenants';
+var listTenantsURL = '/list/tenants';
 
 var ManageTenants = createReactClass({
     getInitialState: function () {
@@ -55,6 +54,7 @@ var ManageTenants = createReactClass({
         $('Add_VBA_Modal')
             .modal('hide');
     },
+
     _handleEditClick: function (id_number) {
         $.ajax({
             url: editTenantsURL + "?id_number=" + id_number,
@@ -63,15 +63,14 @@ var ManageTenants = createReactClass({
             cache: false,
             success: function (data) {
                 this.setState({selectedSubject: data, task: "Edit "});
-
+                this.showModal();
             }.bind(this),
             error: function (xhr, status, err) {
                 console.error(editTenantsURL, status, err.toString());
             }.bind(this)
         });
 
-    },
-    _handleDeleteClick: function (vbacode) {
+    },    _handleDeleteClick: function (vbacode) {
         $.ajax({
             url: editTenantsURL + "?userId=" + userId,
             method: 'GET',
@@ -106,48 +105,49 @@ var ManageTenants = createReactClass({
             )
         }
         return (
-            <div className={'ui fluid container'}>
-                <div className="ui hidden divider"></div>
-                <div className="ui hidden divider"></div>
-                <div className="ui hidden divider"></div>
-                <div className="ui equal width grid">
-                    <div className={'sixteen wide mobile eight wide tablet sixteen wide computer column'}>
-                        <div className="sixteen wide column">
-                            <div className="ui horizontal segment">
+            <div className={'asd'} id={'asd'}>
+                <div className={'ui fluid container'}>
+                    <div className="ui equal width grid">
+                        <div className={'sixteen wide mobile eight wide tablet sixteen wide computer column'}>
+                            <div className="sixteen wide column">
+                                <div className="ui horizontal segment">
 
-                                <div className="ui hidden divider"></div>
-                                {tenantForm}
-                                <div className="row">
-                                    <div className="ui grid attached top header">
-                                        <div className="two column row">
-                                            <div className="left floated left aligned column">
-                                                <h3>Manage Tenants</h3>
+                                    <div className="ui hidden divider"></div>
+                                    {tenantForm}
+                                    <div className="row">
+                                        <div className="ui grid attached top header">
+                                            <div className="two column row">
+                                                <div className="left floated left aligned column">
+                                                    <h3>Manage Tenants</h3>
+                                                </div>
+                                                <div className="right floated right aligned column">
+                                                    <button className="ui primary button" type="button"
+                                                            onClick={this._handleEditClick}>
+                                                        Add
+                                                    </button>
+
+                                                </div>
+
+
                                             </div>
-                                            <div className="right floated right aligned column">
-                                                <button className="ui primary button" type="button"
-                                                        onClick={this._handleEditClick}>
-                                                    Add
-                                                </button>
-
-                                            </div>
-
 
                                         </div>
 
                                     </div>
+                                    <TenantsTable
+                                        items={this.state.items}
+                                        _handleEditClick={this._handleEditClick}
+                                        _handleDeleteClick={this._handleDeleteClick}/>
+
 
                                 </div>
-                                <TenantsTable
-                                    items={this.state.items}
-                                    _handleEditClick={this._handleEditClick}
-                                    _handleDeleteClick={this._handleDeleteClick}/>
-
-
                             </div>
                         </div>
                     </div>
                 </div>
+
             </div>
+
 
 
         )
@@ -176,11 +176,10 @@ var TenantsTable = createReactClass({
                 <table className="ui fixed single line celled stackable striped table">
                     <thead>
                     <tr>
-                        <th>House Id</th>
+                        <th>House Number</th>
                         <th>ID Type</th>
                         <th>ID Number</th>
                         <th>Tenant Name</th>
-                        <th>Gender</th>
                         <th>Phone Number</th>
                         <th className="collapsing one wide">&emsp;</th>
                         <th className="collapsing one wide">&emsp;</th>
@@ -201,9 +200,10 @@ var TenantRow = createReactClass({
     render: function () {
         return (
             <tr>
-                <td>{this.props.subjectItem.vbacode}</td>
-                <td>{this.props.subjectItem.vba_name}</td>
-                <td>{this.props.subjectItem.gender}</td>
+                <td>{this.props.subjectItem.house_name}</td>
+                <td>{this.props.subjectItem.id_type}</td>
+                <td>{this.props.subjectItem.id_number}</td>
+                <td>{this.props.subjectItem.first_name}&nbsp;{this.props.subjectItem.middle_name}&nbsp;{this.props.subjectItem.last_name}</td>
                 <td>{this.props.subjectItem.phone_no}</td>
                 <td>
                     <button type="button" className="ui icon green submit button" onClick={this.props._handleEditClick}>

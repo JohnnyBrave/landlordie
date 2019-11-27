@@ -35,6 +35,7 @@
     padding-bottom: 3.9px!important;
 }
 #asd{
+    margin-top: 60px;
     border-radius: 0!important; border: 0; margin-left: 260px; -webkit-transition-duration: 0.1s;
 }
 #asdsidebar{
@@ -116,7 +117,7 @@
 #tblcontainer{
     overflow-x:scroll;
     width: 100% !important;
-    height: 100% !important;
+    height: 300px !important;
 }
 .fluidcontainer{
     height: 100%!important;

@@ -11,9 +11,10 @@ POST        /login                      controllers.LoginController.login
 GET         /dashboard                  controllers.DashboardController.renderDashboard
 GET         /search                     controllers.SearchController.landing
 
+
 #Routes to the TenantsController
-GET         /manage/tenantinfo          controllers.TenantsController.tenants
-GET         /manage/editTenants        controllers.TenantsController.editTenant(id_number: String)
+GET         /managetenants          controllers.TenantsController.landing
+GET         /editTenants        controllers.TenantsController.editTenant(id_number: String)
 
 
 GET         /unauthorised               controllers.LoginController.redirectUnauthorized

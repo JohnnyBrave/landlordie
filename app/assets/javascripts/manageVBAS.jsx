@@ -163,9 +163,6 @@ var ManageVbas = createReactClass({
         }
         return (
             <div className={'ui fluid container'}>
-                <div className="ui hidden divider"></div>
-                <div className="ui hidden divider"></div>
-                <div className="ui hidden divider"></div>
                 <div className="ui equal grid">
                     <div className={'sixteen wide mobile eight wide tablet sixteen wide computer column'}>
                         <div className="sixteen wide column">
