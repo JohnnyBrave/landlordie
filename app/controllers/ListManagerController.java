@@ -228,6 +228,7 @@ public class ListManagerController extends AppController {
 
         System.out.println("Inside list Tenants");
         System.out.println("The Tenants  are: "+tenants.size()+" in number");
+        System.out.println("The Tenants  are: "+Json.toJson(tenants));
         return ok(Json.toJson(tenants));
     }
 

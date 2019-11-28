@@ -15,6 +15,11 @@ GET         /search                     controllers.SearchController.landing
 #Routes to the TenantsController
 GET         /managetenants          controllers.TenantsController.landing
 GET         /editTenants        controllers.TenantsController.editTenant(id_number: String)
+GET         /addTenant          controllers.TenantsController.addTenant
+POST        /updateTenants      controllers.TenantsController.updateTenant
+POST         /saveTenants        controllers.TenantsController.saveTenant()
+
+
 
 
 GET         /unauthorised               controllers.LoginController.redirectUnauthorized

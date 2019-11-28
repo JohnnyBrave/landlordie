@@ -289,7 +289,7 @@ var TenantRow = createReactClass({
     render: function () {
         return (
             <tr>
-                <td>{this.props.subjectItem.house_name}</td>
+                <td>{this.props.subjectItem.house_name.name}</td>
                 <td>{this.props.subjectItem.id_type}</td>
                 <td>{this.props.subjectItem.id_number}</td>
                 <td>{this.props.subjectItem.first_name}&nbsp;{this.props.subjectItem.middle_name}&nbsp;{this.props.subjectItem.last_name}</td>

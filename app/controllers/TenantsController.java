@@ -37,14 +37,30 @@ public class TenantsController extends AppController {
 
 //        return ok(views.html.tenants.render(isLoggedIn(), getUserJson()));
     }
+    /*edit a tenant*/
 
     public Result editTenant(String id_number) {
-        System.out.println("Thre ID Number of thisuser is: "+id_number);
+        System.out.println("The ID Number of this tenant is: "+id_number);
         Tenants tenant = Tenants.find.byId(id_number);
         ObjectNode tenantNode = (ObjectNode) Json.toJson(tenant);
         System.out.println("The records of the selected Tenant are: " + tenantNode.toString());
         return ok(tenantNode);
     }
+    /*add a tenant*/
+    public Result addTenant(){
+        System.out.println("We are  now adding a new tenant");
+        Tenants tenant = new Tenants();
+        return ok(Json.toJson(tenant));
+    }
+    /*update a tenant*/
+    public Result updateTenant(){
+        return ok("Tenant is being updated");
+    }
+    /*save a VBA*/
+    public Result saveTenant(){
+        return ok("Tenant is being saved");
+    }
+
 
 
 

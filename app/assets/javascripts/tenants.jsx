@@ -1,5 +1,8 @@
 var editTenantsURL = '/editTenants';
 var listTenantsURL = '/list/tenants';
+var addSubjectURL = '/addTenant'
+var saveSubjectURL  = '/saveTenants';
+var updateSubjectURL = '/updateTenants';
 
 var ManageTenants = createReactClass({
     getInitialState: function () {
@@ -16,13 +19,15 @@ var ManageTenants = createReactClass({
 
     },
     _loadTenants: function () {
+        this._startPageLoader();
         $.ajax({
             url: listTenantsURL,
             method: 'GET',
             dataType: 'json',
             cache: false,
             success: function (data) {
-                this.setState({items: data, messageResponses: {message: 'VBAs loaded', type: 'info', hidden: false}});
+                this.setState({items: data, messageResponses: {message: 'Tenants loaded', type: 'info', hidden: false}});
+                this._stopPageLoader();
             }.bind(this),
             error: function (xhr, status, err) {
                 console.error(listTenantsURL, status, err.toString());
@@ -44,15 +49,19 @@ var ManageTenants = createReactClass({
         this._loadTenants();
     },
     showModal: function () {
-        $('Add_VBA_Modal.ui.basic.modal')
+        this.setState({showModal: true});
+        $('#modal')
             .modal('setting', 'closable', false)
-            .modal('setting', 'transition', 'vertical flip')
+            .modal('setting', 'transition', 'swing down')
             .modal('show');
 
     },
-    hideModal: function () {
-        $('Add_VBA_Modal')
-            .modal('hide');
+    _handleCloseModal: function () {
+        this.setState({selectedSubject: null, task: '',messageResponses: {message: '',type: 'info', hidden: false},showModal: false})
+        $('#modal')
+            .modal('hide')
+            .modal('hide dimmer');
+
     },
 
     _handleEditClick: function (id_number) {
@@ -70,7 +79,25 @@ var ManageTenants = createReactClass({
             }.bind(this)
         });
 
-    },    _handleDeleteClick: function (vbacode) {
+    },
+    _handleAddClick: function () {
+        $.ajax({
+            url: addSubjectURL,
+            method: 'GET',
+            dataType: 'json',
+            cache: false,
+            success: function (data) {
+                /*Subject cannot be null hence we assign an empty object*/
+                data.subject={}
+                this.setState({selectedSubject: data, task: "Add ",messageResponses:{message:'Error occured while performing add ',type:'info',hidden:false}});
+                this.showModal();
+            }.bind(this),
+            error: function (xhr, status, err) {
+                console.error(addSubjectURL, status, err.toString());
+            }.bind(this)
+        });
+    },
+    _handleDeleteClick: function (vbacode) {
         $.ajax({
             url: editTenantsURL + "?userId=" + userId,
             method: 'GET',
@@ -85,22 +112,91 @@ var ManageTenants = createReactClass({
         });
 
     },
+    _handleSaveClick: function () {
+        var submitUrl;
+        var myTask = this.state.task;
+        if (myTask == 'Add ') {
+            submitUrl = saveSubjectURL;
+        } else if (myTask == 'Edit ') {
+            submitUrl = updateSubjectURL;
+        }
+        var params = JSON.stringify(this.state.selectedSubject);
+        $.ajax({
+            async: true,
+            url: submitUrl,
+            contentType: "application/json; charset=utf-8",
+            method: 'POST',
+            headers: {
+                "cache-control": "no-cache"
+            },
+            dataType: 'json',
+            data: params,
+            cache: false,
+            success: function (data) {
+                this.setState({
+                        selectedVba: null,
+                        task: "",
+                        messageResponses: {message: data.message, type: data.type, hidden: false},
+                    },
+                    function () {
+                        //reload the list of Subjects
+                        this._loadTenants();
+                        //then close the modal
+                        this._handleCloseModal();
+
+                    });
+
+            }.bind(this),
+            error: function (xhr, status, err) {
+                console.log("form not sent" + err.toString());
+            }.bind(this)
+        });
+    },
+    _handleCancelClick: function () {
+        this.setState({selectedVba: null, task: '', messageResponses: {message: '', type: 'info', hidden: false}});
+        this._handleCloseModal();
+
+    },
+
+    _handleDeleteClick: function (vbacode) {
+        $.ajax({
+            url: editVBAsURL + "?userId=" + userId,
+            method: 'GET',
+            dataType: 'json',
+            cache: false,
+            success: function (data) {
+                this.setState({selectedVba: data, task: "Edit "});
+            }.bind(this),
+            error: function (xhr, status, err) {
+                console.error(editVBAsURL, status, err.toString());
+            }.bind(this)
+        });
+
+    },
+
+    /*
+* Handler for text changes on Modal input components
+*/
     _textChanged: function (event) {
         var values = this.state.selectedSubject;
         values['' + event.target.name + ''] = event.target.value;
         this.setState({selectedSubject: values});
+        console.log("the values are" + JSON.stringify(values));
 
     },
+
 
     render: function () {
         var tenantForm = "";
         {
             this.state.selectedSubject && (
-                tenantForm = <TenantForm
-                    person={this.state.selectedSubject}
+                tenantForm = <SubjectForm
+                    subject={this.state.selectedSubject}
                     textChanged={this._textChanged}
                     fullForm={true}
                     task={this.state.task}
+                    saveSubject={this._handleSaveClick}
+                    cancelSubject={this._handleCloseModal}
                 />
             )
         }
@@ -122,7 +218,7 @@ var ManageTenants = createReactClass({
                                                 </div>
                                                 <div className="right floated right aligned column">
                                                     <button className="ui primary button" type="button"
-                                                            onClick={this._handleEditClick}>
+                                                            onClick={this._handleAddClick}>
                                                         Add
                                                     </button>
 
@@ -200,7 +296,7 @@ var TenantRow = createReactClass({
     render: function () {
         return (
             <tr>
-                <td>{this.props.subjectItem.house_name}</td>
+                <td>{this.props.subjectItem.house_name.name}</td>
                 <td>{this.props.subjectItem.id_type}</td>
                 <td>{this.props.subjectItem.id_number}</td>
                 <td>{this.props.subjectItem.first_name}&nbsp;{this.props.subjectItem.middle_name}&nbsp;{this.props.subjectItem.last_name}</td>

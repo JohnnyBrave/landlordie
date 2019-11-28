@@ -24,7 +24,9 @@ libraryDependencies ++= Seq(
   guice,
   javaJdbc,
   cacheApi,
-  "mysql" % "mysql-connector-java" % "5.1.27",
+//  "mysql" % "mysql-connector-java" % "5.1.27",
+  /*this below is for the purpose of connecting to MacOS High Sierra*/
+  "mysql" % "mysql-connector-java" % "8.0.17",
   javaWs,
 
   "org.webjars" %% "webjars-play" % "2.6.0",

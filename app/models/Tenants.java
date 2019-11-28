@@ -10,11 +10,12 @@ import javax.persistence.*;
 @Table(name = "tenants")
 public class Tenants extends Model {
 
-    @Id
+
     @Column(name = "tenant_id")
     private String tenant_id;
     @Column(name = "id_type")
     private String id_type;
+    @Id
     @Column(name = "id_number")
     private String id_number;
     @Column(name = "first_name")
@@ -89,15 +90,8 @@ public class Tenants extends Model {
         this.last_name = last_name;
     }
 
-    public Houses getHouse_no() {
-        return house_no;
-    }
 
-    public void setHouse_no(Houses house_no) {
-        this.house_no = house_no;
-    }
-
-    public String getHouse_name(){return house_no.getName();}
+    public Houses getHouse_name(){return house_no;}
     public void setHouse_name(String house_name){
         this.house_name = house_name;
     }

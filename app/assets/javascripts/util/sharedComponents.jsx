@@ -26,27 +26,27 @@ function formatDateMonthDay(dateValue, options = allAvailableOptions) {
 
 
 const modalRoot = document.getElementById('modal')
-var Modal = createReactClass({
+var SubjectForm = createReactClass({
 
     propTypes: {
         //All these are required to for the use of this component
-        vba: PropTypes.object.isRequired,
+        subject: PropTypes.object.isRequired,
         textChanged: PropTypes.func.isRequired,
-        saveVba: PropTypes.func.isRequired,
-        cancelVba: PropTypes.func.isRequired,
+        saveSubject: PropTypes.func.isRequired,
+        cancelSubject: PropTypes.func.isRequired,
         fullForm: PropTypes.bool.isRequired,
         task: PropTypes.string.isRequired
     },
 
-    saveVba: function () {
+    saveSubject: function () {
         console.log("saving vba")
-        this.props.saveVba();
+        this.props.saveSubject();
 
     },
 
 
-    cancelVba: function () {
-        this.props.cancelVba();
+    cancelSubject: function () {
+        this.props.cancelSubject();
     },
     vba_nameChanged: function (passedValue) {
         this.props.vba_nameChanged(passedValue)
@@ -86,29 +86,61 @@ var Modal = createReactClass({
                 </div>
                 <div id="modal" className="ui form">
                     <div className="ui segments">
-                        <h4 className="ui top attached header">{this.props.task}VBA</h4>
+                        <h4 className="ui top attached header">{this.props.task}Tenant Information</h4>
                         <div className="ui attached segment">
                             <div className="field">
                                 <div className="two fields">
                                     <div className="field">
-                                        <label>VBA HHCODE <span>*</span></label>
+                                        <label>ID NUMBER<span>*</span></label>
                                         <Input type="text"
-                                               name={'vbacode'}
-                                               htmlFor={'vbacode'}
+                                               name={'id_number'}
+                                               htmlFor={'id_number'}
                                                isrequired={true}
-                                               messageRequired={'VBA HHCODE is required'}
+                                               messageRequired={'ID Number is required'}
                                                onChange={this.textChanged}
-                                               value={this.props.vba && this.props.vba.vbacode}/>
+                                               value={this.props.subject && this.props.subject.id_number}/>
                                     </div>
                                     <div className="field">
-                                        <label>VBA Name <span>*</span></label>
+                                        <label>ID TYPE<span>*</span></label>
                                         <Input type="text"
-                                               name={'vba_name'}
-                                               htmlFor={'vba_name'}
+                                               name={'id_type'}
+                                               htmlFor={'id_type'}
                                                isrequired={true}
-                                               messageRequired={'VBA Name is required'}
+                                               messageRequired={'ID TYPE is required'}
                                                onChange={this.textChanged}
-                                               value={this.props.vba && this.props.vba.vba_name}/>
+                                               value={this.props.subject && this.props.subject.id_type}/>
+                                    </div>
+                                </div>
+                                <div className="three fields">
+                                    <div className="field">
+                                        <label>FIRST NAME <span>*</span></label>
+                                        <Input type="text"
+                                               name={'first_name'}
+                                               htmlFor={'first_name'}
+                                               isrequired={true}
+                                               messageRequired={'FIRST NAME is required'}
+                                               onChange={this.textChanged}
+                                               value={this.props.subject && this.props.subject.first_name}/>
+                                    </div>
+                                    <div className="field">
+                                        <label>MIDDLE NAME <span>*</span></label>
+                                        <Input type="text"
+                                               name={'middle_name'}
+                                               htmlFor={'middle_name'}
+                                               isrequired={true}
+                                               messageRequired={'MIDDLE NAME is required'}
+                                               onChange={this.textChanged}
+                                               value={this.props.subject && this.props.subject.middle_name}/>
+                                    </div>
+                                    <div className="field">
+                                        <label>LAST NAME <span>*</span></label>
+                                        <Input type="text"
+                                               name={'last_name'}
+                                               htmlFor={'last_name'}
+                                               isrequired={true}
+                                               messageRequired={'LAST NAME is required'}
+                                               onChange={this.textChanged}
+                                               value={this.props.subject && this.props.subject.last_name}/>
                                     </div>
                                 </div>
                                 <div className="two fields">
@@ -120,48 +152,26 @@ var Modal = createReactClass({
                                                isrequired={true}
                                                onChange={this.textChanged}
                                                messageRequired={'Phone Number is required'}
-                                               value={this.props.vba && this.props.vba.phone_no}/>
+                                               value={this.props.subject && this.props.subject.phone_no}/>
                                     </div>
                                     <div className="field">
-                                        <label>Gender</label>
+                                        <label>HOUSE</label>
                                         <Input type="text"
-                                               name={'gender'}
-                                               htmlFor={'gender'}
+                                               name={'house_name'}
+                                               htmlFor={'house_name'}
                                                isrequired={true}
-                                               messageRequired={'Gender is required'}
+                                               messageRequired={'HOUSE NAME is required'}
                                                onChange={this.textChanged}
-                                               value={this.props.vba && this.props.vba.gender}/>
-                                    </div>
-                                </div>
-                                <div className="two fields">
-                                    <div className="field">
-                                        <label>Latitude <span>*</span></label>
-                                        <Input type="text"
-                                               name={'latitude'}
-                                               htmlFor={'latitude'}
-                                               isrequired={true}
-                                               onChange={this.textChanged}
-                                               messageRequired={'Latitude Number is required'}
-                                               value={this.props.vba && this.props.vba.latitude}/>
-                                    </div>
-                                    <div className="field">
-                                        <label>Longitude</label>
-                                        <Input type="text"
-                                               name={'longitude'}
-                                               htmlFor={'longitude'}
-                                               isrequired={true}
-                                               onChange={this.textChanged}
-                                               messageRequired={'Longitude is required'}
-                                               value={this.props.vba && this.props.vba.longitude}/>
+                                               value={this.props.subject && this.props.subject.house_name}/>
                                     </div>
                                 </div>
 
                             </div>
                         </div>
                         <div className="ui bottom attached segment">
-                            <button type="button" onClick={this.props.saveVba} className="ui primary button">Save
+                            <button type="button" onClick={this.props.saveSubject} className="ui primary button">Save
                             </button>
-                            <button type="button" onClick={this.props.cancelVba} className="ui red button">Cancel
+                            <button type="button" onClick={this.props.cancelSubject} className="ui red button">Cancel
                             </button>
                         </div>
                     </div>
